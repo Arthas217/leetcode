@@ -2,8 +2,6 @@ package leetcode;
 
 import leetcode.model.ListNode;
 
-import javax.print.DocFlavor;
-
 /**
  * @Author 会游泳的蚂蚁
  * @Description: 链表
@@ -15,6 +13,7 @@ public class ListTopic {
      * @return leetcode.model.ListNode
      * @Author 会游泳的蚂蚁
      * @Description 两数相加 **
+     * 两个非空的链表，表示两个非负的整数。它们每位数字都是按照逆序的方式存储的，并且每个节点只能存储一位数字。
      * @Date 2021/1/26 18:12
      * @Param [l1, l2]
      */
