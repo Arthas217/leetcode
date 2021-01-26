@@ -39,4 +39,11 @@ public class StringTopicTest {
         Assert.assertEquals(result, true);
         Assert.assertEquals(result2, false);
     }
+
+    @Test
+    public void testLengthOfLongestSubstring(){
+        String str = "abcabcbb";
+        int l = stringTopic.lengthOfLongestSubstring(str);
+        Assert.assertEquals(l,3);
+    }
 }

@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author 会游泳的蚂蚁
  * @Description:
@@ -86,6 +89,35 @@ public class StringTopic {
             right--;
         }
         return true;
+    }
+
+
+    /**
+     * @return int
+     * @Author 会游泳的蚂蚁
+     * @Description 无重复字符的最长子串的长度 **
+     * @Date 2021/1/26 17:28
+     * @Param [s]
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int length = s.length();
+        if (length == 0) {
+            return 0;
+        }
+        //滑动窗口机制
+        //此map中，key=字符，value=字符index+1时开始不重复，start移动所需
+        Map<Character, Integer> startMap = new HashMap<>();
+        int start = 0;
+        int result = 0;
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (startMap.containsKey(c)) {
+                start = Math.max(start, startMap.get(c));
+            }
+            startMap.put(c, i + 1);
+            result = Math.max(result, i - start + 1);
+        }
+        return result;
     }
 
 
