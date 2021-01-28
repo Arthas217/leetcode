@@ -18,18 +18,42 @@ public class ListTopicTest {
 
     ListTopic listTopic;
     ListNode listNode;
+    ListNode l1;
+    ListNode l2;
 
     @BeforeMethod
     public void setUp() {
         listTopic = new ListTopic();
         listNode = new ListNode();
+        l1 = listNode.constructList(Lists.newArrayList(2, 4, 3));
+        l2 = listNode.constructList(Lists.newArrayList(5, 6, 4));
     }
 
     @Test
     public void testAddTwoNumbers() {
-        ListNode l1 = listNode.constructList(Lists.newArrayList(2, 4, 3));
-        ListNode l2 = listNode.constructList(Lists.newArrayList(5, 6, 4));
         ListNode node = listTopic.addTwoNumbers(l1, l2);
         listNode.printList(node);
     }
+
+    @Test
+    public void testReverse() {
+        ListNode reverse = listTopic.reverse(l1);
+        listNode.printList(reverse);
+        System.out.println();
+        ListNode reverse2 = listTopic.reverse2(reverse);
+        listNode.printList(reverse2);
+    }
+
+    @Test
+    public void testReverseN() {
+        ListNode reverseN = listTopic.reverseN(l1, 2);
+        listNode.printList(reverseN);
+    }
+
+    @Test
+    public void testReverseBetween() {
+        ListNode reverseBetween = listTopic.reverseBetween(l1, 2, 3);
+        listNode.printList(reverseBetween);
+    }
+
 }

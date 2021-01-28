@@ -47,4 +47,82 @@ public class ListTopic {
         }
         return init.next;
     }
+
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 递归反转整个链表
+     * 递归函数：以node为起点的链表反转，并返回反转之后的头结点。
+     * @Date 2021/1/28 10:38
+     * @Param
+     */
+    ListNode reverse(ListNode node) {
+        // 递归函数 base case(而非边界的含义）
+        if (node.next == null) {
+            return node;
+        }
+        ListNode temp = reverse(node.next);
+        node.next.next = node;
+        node.next = null;
+        return temp;
+    }
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 递归反转链表前 N 个节点, N<=链表⻓度
+     * 递归函数：反转以node为起点的N个节点，返回新的头结点
+     * @Date 2021/1/28 10:49
+     * @Param
+     */
+    ListNode back = null;
+
+    ListNode reverseN(ListNode node, int n) {
+        if (n == 1) {
+            back = node.next;
+            return node;
+        }
+        ListNode temp = reverseN(node.next, n - 1);
+        node.next.next = node;
+        node.next = back;
+        return temp;
+    }
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 递归反转从位置m到n的链表。请使用一趟扫描完成反转, 1≤m≤n≤链表长度
+     * @Date 2021/1/28 10:37
+     * @Param
+     */
+    ListNode reverseBetween(ListNode node, int m, int n) {
+        if (m == 1) {
+            return reverseN(node, n);
+        }
+        node.next = reverseBetween(node.next, m - 1, n - 1);
+        return node;
+    }
+
+    //递归操作链表并不高效。和迭代解法相比，虽然时间复杂度都是 O(N)，但是迭代解法的空间复杂度是 O(1)，而递归解法需要堆栈，空间复杂度是 O(N)。
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description //迭代反转整个链表
+     * @Date 2021/1/28 11:15
+     * @Param
+     */
+    ListNode reverse2(ListNode node) {
+        ListNode pre = null;
+        ListNode next;
+        ListNode cur = node;
+        while (cur != null) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
 }
