@@ -23,7 +23,7 @@ public class StringTopicTest {
     @Test
     public void testIsPalindrome() {
         int value = 12321;
-        int value2 =11;
+        int value2 = 11;
         boolean result = stringTopic.isPalindrome(value);
         boolean result2 = stringTopic.isPalindrome(value2);
         Assert.assertEquals(result, true);
@@ -41,9 +41,9 @@ public class StringTopicTest {
     }
 
     @Test
-    public void testLengthOfLongestSubstring(){
+    public void testLengthOfLongestSubstring() {
         String str = "abcabcbb";
         int l = stringTopic.lengthOfLongestSubstring(str);
-        Assert.assertEquals(l,3);
+        Assert.assertEquals(l, 3);
     }
 }

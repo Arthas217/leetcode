@@ -125,4 +125,73 @@ public class ListTopic {
         }
         return pre;
     }
+
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 判断是否为回文单链表  链表递归后续遍历思想
+     * 算法的时间和空间复杂度都是 O(N)
+     * @Date 2021/1/28 11:42
+     * @Param
+     */
+    ListNode left;
+
+    public boolean isPalindrome(ListNode node) {
+        left = node;
+        return palindromeHelp(node);
+    }
+
+    private boolean palindromeHelp(ListNode right) {
+        if (right == null) {
+            return true;
+        }
+        boolean result = palindromeHelp(right.next);
+        // 后序遍历代码
+        result = result && (right.val == left.val);
+        left = left.next;
+        return result;
+    }
+
+    /**
+     * @return boolean
+     * @Author 会游泳的蚂蚁
+     * @Description 判断是否为回文单链表(快慢双指针 ）
+     *算法的时间 O ( N)和空间复杂度都是 O(1)
+     * @Date 2021/1/28 13:23
+     * @Param [node]
+     */
+    public boolean isPalindrome2(ListNode node) {
+        ListNode slow = node;
+        ListNode fast = node;
+        // p、q、pre的使用都是为了保持输入链表的原始结构(也可以去掉）
+        ListNode pre = null;
+        ListNode p, q;
+        while (fast != null && fast.next != null) {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // 链表⻓度为奇数
+        if (fast != null) {
+            p = slow;
+            slow = slow.next;
+        } else { //偶数
+            p = pre;
+        }
+        //slow开始反转后面的链表
+        ListNode left = node;
+        ListNode right = reverse2(slow);
+        q = right;
+        while (right != null) {
+            if (right.val != left.val) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        p.next = reverse2(q);
+        return true;
+    }
+
 }

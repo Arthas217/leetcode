@@ -3,6 +3,7 @@ package leetcode;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import edu.emory.mathcs.backport.java.util.Collections;
 import leetcode.model.ListNode;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
@@ -30,6 +31,12 @@ public class ListTopicTest {
     }
 
     @Test
+    public void testPrint() {
+        listNode.print(l1);
+        listNode.traversePrint(l1);
+    }
+
+    @Test
     public void testAddTwoNumbers() {
         ListNode node = listTopic.addTwoNumbers(l1, l2);
         listNode.printList(node);
@@ -54,6 +61,18 @@ public class ListTopicTest {
     public void testReverseBetween() {
         ListNode reverseBetween = listTopic.reverseBetween(l1, 2, 3);
         listNode.printList(reverseBetween);
+    }
+
+    @Test
+    public void test() {
+        ListNode node = this.listNode.constructList(Lists.newArrayList(1, 2, 2, 1));
+        boolean palindrome = listTopic.isPalindrome(node);
+        Assert.assertEquals(palindrome, true);
+
+        ListNode node2 = this.listNode.constructList(Lists.newArrayList(1, 2, 3, 2, 1));
+        boolean palindrome2 = listTopic.isPalindrome2(node2);
+        Assert.assertEquals(palindrome2, true);
+        listNode.printList(node2);
     }
 
 }
