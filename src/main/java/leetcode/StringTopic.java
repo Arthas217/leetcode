@@ -120,5 +120,40 @@ public class StringTopic {
         return result;
     }
 
+    /**
+     * @return java.lang.String
+     * @Author 会游泳的蚂蚁
+     * @Description 最长回文子串（双指针）**
+     * 寻找回文串的问题核心思想是：从中间开始向两边扩散来判断回文串
+     * https://juejin.cn/post/6844903901884317709
+     * 时间复杂度 O(N^2)，空间复杂度 O(1)。
+     * @Date 2021/1/28 14:02
+     * @Param [s]
+     */
+    public String longestPalindrome(String s) {
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            //如果大于保存的最大回文长度，则计算并更新最大回文的位置
+            if (len > end - start + 1) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+
+        }
+        return s.substring(start, end + 1);
+    }
+
+    // 回文串的长度可能是奇数也可能是偶数
+    private int expandAroundCenter(String s, int l, int r) {
+        // 防止索引越界
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        return r - l - 1;
+    }
 
 }

@@ -46,4 +46,12 @@ public class StringTopicTest {
         int l = stringTopic.lengthOfLongestSubstring(str);
         Assert.assertEquals(l, 3);
     }
+
+
+    @Test
+    public void testLongestPalindrome(){
+//        String result = stringTopic.longestPalindrome("ababd");
+        String result = stringTopic.longestPalindrome("abba");
+        System.out.println(result);
+    }
 }
