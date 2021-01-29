@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 /**
  * @Author 会游泳的蚂蚁
- * @Description:
+ * @Description: 简单一致性hash实现
  * @Date 2021/1/29 10:57
  */
 public class ConsistentHash<T> {
@@ -34,6 +34,7 @@ public class ConsistentHash<T> {
     public void add(T node) {
         for (int i = 0; i < numberOfReplicas; i++) {
             BigInteger hash = new BigInteger(messageDigest.digest((node.toString() + i).getBytes()));
+            System.out.println("add----node=" + node + "   hash=" + hash);
             circle.put(hash, node);
         }
     }
@@ -51,23 +52,12 @@ public class ConsistentHash<T> {
             return null;
         }
         BigInteger hash = new BigInteger(messageDigest.digest(key.getBytes()));
+        System.out.println("key----" + key + "  hash=" + hash);
         if (!circle.containsKey(hash)) {
             SortedMap<BigInteger, T> tailMap = circle.tailMap(hash);
             hash = tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
         }
         return circle.get(hash);
-    }
-
-    public static void main(String[] args) {
-        SortedMap<Integer, String> map = new TreeMap<>();
-        map.put(2, "two");
-        map.put(1, "one");
-        map.put(3, "three");
-        map.put(6, "six");
-        map.put(5, "five");
-        SortedMap<Integer, String> tailMap = map.tailMap(3);
-        System.out.println(tailMap);
-        System.out.println(tailMap.firstKey());
     }
 
 }
