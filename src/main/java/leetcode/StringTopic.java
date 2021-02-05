@@ -186,4 +186,26 @@ public class StringTopic {
         return true;
     }
 
+
+    /**
+     * @return int
+     * @Author 会游泳的蚂蚁
+     * @Description IP地址（IPV4）与int类型之间的转换
+     * https://blog.csdn.net/qq_29229567/article/details/88735540
+     * 目的：时间换空间的一种方式
+     * @Date 2021/2/5 15:18
+     * @Param [ipv4]
+     */
+    public int ipv4ToInt(String ipv4) {
+        String[] ipSlices = ipv4.split("\\.");
+        int result = 0;
+        for (int i = 0; i < ipSlices.length; i++) {
+            // 将 ip 的每一段解析为 int，并根据位置左移 8 位
+            int intSlice = Integer.parseInt(ipSlices[i]) << 8 * i;
+            // 求或
+            result = result | intSlice;
+        }
+        return result;
+    }
+
 }

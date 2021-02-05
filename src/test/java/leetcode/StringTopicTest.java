@@ -61,4 +61,15 @@ public class StringTopicTest {
         Assert.assertEquals(match, true);
     }
 
+    @Test
+    public void testIp() {
+        //15个字节
+        int value1 = stringTopic.ipv4ToInt("255.255.255.255");
+        //7个字节
+        int value2 = stringTopic.ipv4ToInt("1.1.1.1");
+        //int只用4个字节
+        System.out.println(value1);
+        System.out.println(value2);
+    }
+
 }
