@@ -49,9 +49,16 @@ public class StringTopicTest {
 
 
     @Test
-    public void testLongestPalindrome(){
+    public void testLongestPalindrome() {
 //        String result = stringTopic.longestPalindrome("ababd");
         String result = stringTopic.longestPalindrome("abba");
         System.out.println(result);
     }
+
+    @Test
+    public void testStrMatch() {
+        boolean match = stringTopic.StrMatch("abcda", "adabc");
+        Assert.assertEquals(match, true);
+    }
+
 }

@@ -156,4 +156,34 @@ public class StringTopic {
         return r - l - 1;
     }
 
+    /**
+     * @return boolean
+     * @Author 会游泳的蚂蚁
+     * @Description 两个字符串匹配(假设两个字符串中所含有的字符和个数都相同)
+     * @Date 2021/2/5 11:12
+     * @Param [str1, str2]
+     */
+    public boolean StrMatch(String str1, String str2) {
+        int l1 = str1.length();
+        int l2 = str2.length();
+        if (l1 < 0 || l2 < 0 || l1 != l2) {
+            return false;
+        }
+        int[] count = new int[256];
+        for (int i = 0; i < l1; i++) {
+            ++count[str1.charAt(i)];
+            System.out.println(str1.charAt(i));
+            System.out.println(count[str1.charAt(i)]);
+        }
+        for (int i = 0; i < l2; i++) {
+            --count[str2.charAt(i)];
+        }
+        for (int i = 0; i < 256; ++i) {
+            if (count[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
