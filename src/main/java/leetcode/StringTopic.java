@@ -208,4 +208,42 @@ public class StringTopic {
         return result;
     }
 
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 字符串相乘 (不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理)
+     * https://labuladong.gitbook.io/algo/gao-pin-mian-shi-xi-lie/zi-fu-chuan-cheng-fa
+     * @Date 2021/2/19 09:39
+     * @Param
+     */
+    public String multiply(String num1, String num2) {
+        //涉及乘法进位，涉及错位相加，还涉及加法进位
+        int m = num1.length();
+        int n = num2.length();
+        int[] res = new int[m + n];
+        // 从个位数开始逐位相乘
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                int mul = (num1.charAt(j) - '0') * (num2.charAt(i) - '0');
+                int p1 = i + j;
+                int p2 = i + j + 1;
+                int sum = mul + res[p2];
+                res[p2] = sum % 10;
+                res[p1] += sum / 10;
+            }
+        }
+        // 结果前缀可能存的0（未使用的位）
+        int i = 0;
+        while (i < res.length && res[i] == 0) {
+            i++;
+        }
+        // 将计算结果转化成字符串
+        StringBuffer sb = new StringBuffer();
+        for (int j = i; j < res.length; j++) {
+            sb.append(res[j]);
+        }
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
 }

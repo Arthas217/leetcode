@@ -72,4 +72,13 @@ public class StringTopicTest {
         System.out.println(value2);
     }
 
+
+    @Test
+    public void testmultiply(){
+        String num1 = "2";
+        String num2 = "3";
+        String multiply = stringTopic.multiply(num1, num2);
+        System.out.println(multiply);
+    }
+
 }
