@@ -48,6 +48,7 @@ public class ListTopic {
     /**
      * 递归反转整个链表
      * 递归函数：以node为起点的链表反转，并返回反转之后的头结点。
+     * https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/shou-ba-shou-shua-lian-biao-ti-mu-xun-lian-di-gui-si-wei/di-gui-fan-zhuan-lian-biao-de-yi-bu-fen
      */
     ListNode reverse(ListNode node) {
         // 递归函数 base case(而非边界的含义）
