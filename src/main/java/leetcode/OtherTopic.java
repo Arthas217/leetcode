@@ -1,4 +1,6 @@
-package leetcode.model;
+package leetcode;
+
+import java.util.Stack;
 
 /**
  * @Author 会游泳的蚂蚁
@@ -39,4 +41,41 @@ public class OtherTopic {
         }
         return res;
     }
+
+
+    /**
+     * @return
+     * @Author 会游泳的蚂蚁
+     * @Description 判定括号合法性
+     * @Date 2021/2/19 10:51
+     * @Param
+     */
+    boolean isValid(String str) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else { // 字符 c 是右括号
+                if (!stack.empty() && stack.peek().equals(revertChar(c))) {
+                    stack.pop();
+                } else {
+                    // 和最近的左括号不匹配
+                    return false;
+                }
+            }
+        }
+        return stack.empty();
+    }
+
+    private Character revertChar(char c) {
+        if (c == '}') {
+            return '{';
+        }
+        if (c == ')') {
+            return '(';
+        }
+        return '[';
+    }
+
 }
