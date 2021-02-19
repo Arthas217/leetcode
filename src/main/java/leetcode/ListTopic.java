@@ -50,12 +50,12 @@ public class ListTopic {
      * 递归函数：以node为起点的链表反转，并返回反转之后的头结点。
      * https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/shou-ba-shou-shua-lian-biao-ti-mu-xun-lian-di-gui-si-wei/di-gui-fan-zhuan-lian-biao-de-yi-bu-fen
      */
-    ListNode reverse(ListNode node) {
+    ListNode reverseList(ListNode node) {
         // 递归函数 base case(而非边界的含义）
-        if (node.next == null) {
+        if (node == null || node.next == null) {
             return node;
         }
-        ListNode temp = reverse(node.next);
+        ListNode temp = reverseList(node.next);
         node.next.next = node;
         node.next = null;
         return temp;
@@ -131,8 +131,10 @@ public class ListTopic {
     }
 
     /**
+     * 234. 回文链表
      * 判断是否为回文单链表(快慢双指针）
      * 算法的时间 O (N) 空间复杂度都是 O(1)
+     * https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/shou-ba-shou-shua-lian-biao-ti-mu-xun-lian-di-gui-si-wei/pan-duan-hui-wen-lian-biao
      */
     public boolean isPalindrome2(ListNode node) {
         ListNode slow = node;

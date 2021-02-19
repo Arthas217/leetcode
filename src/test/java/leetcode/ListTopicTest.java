@@ -44,7 +44,7 @@ public class ListTopicTest {
 
     @Test
     public void testReverse() {
-        ListNode reverse = listTopic.reverse(l1);
+        ListNode reverse = listTopic.reverseList(l1);
         listNode.printList(reverse);
         System.out.println();
         ListNode reverse2 = listTopic.reverse2(reverse);
