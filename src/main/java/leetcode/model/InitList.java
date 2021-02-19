@@ -7,7 +7,7 @@ package leetcode.model;
  */
 public class InitList {
 
-    public static ListNode init141() {
+    public ListNode init141() {
         ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
@@ -22,4 +22,5 @@ public class InitList {
         l6.next = l3;
         return l1;
     }
+
 }
