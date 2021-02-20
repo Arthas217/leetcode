@@ -180,6 +180,85 @@ public class TreeTopic {
         return result;
     }
 
+    /**
+     * 437. 路径总和 III
+     * 路径方向必须是向下的（只能从父节点到子节点）
+     * 找出路径和等于sum的路径总数
+     * 注意count不能作为dfs函数参数。因为不是以根节点为起始点。
+     */
+    private int count = 0;
+
+    public int pathSum(TreeNode root, int sum) {
+        // 双重DFS: 先序递归遍历每个节点;
+        if (root == null) {
+            return count;
+        }
+        pathSumDFS(root, sum);
+        pathSum(root.left, sum);
+        pathSum(root.right, sum);
+        return count;
+    }
+
+    // 以每个节点作为起始节点DFS寻找满足条件的路径.
+    private void pathSumDFS(TreeNode root, int sum) {
+        if (root == null) {
+            return;
+        }
+        sum -= root.val;
+        if (sum == 0) {
+            count++;
+        }
+        pathSumDFS(root.left, sum);
+        pathSumDFS(root.right, sum);
+    }
+
+
+    /**
+     * 111. 二叉树的最小深度
+     * 最小深度是从根节点到最近叶子节点的最短路径上的节点数量
+     * 叶子节点的深度为1
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        //1.左孩子和有孩子都为空的情况，说明到达了叶子节点，直接返回1即可
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        //2.如果左孩子和右孩子其中一个为空，返回比较大的那个孩子的深度
+        int l = minDepth(root.left);
+        int r = minDepth(root.right);
+        if (l == 0 || r == 0) {
+            return l + r + 1;
+        }
+        //3.左右孩子都不为空，返回最小深度+1
+        return Math.min(l, r) + 1;
+
+    }
+
+    /**
+     * 404. 左叶子之和
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        // 判断节点是否是左叶子节点
+        if (isLeaf(root.left)) {
+            // 递归找其他的左孩子
+            return root.left.val + sumOfLeftLeaves(root.right);
+        }
+        // 非叶子节点 左子树和右子树都要递归处理。
+        return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+
+    private boolean isLeaf(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        return root.left == null && root.right == null;
+    }
 
 
     /**
