@@ -2,6 +2,8 @@ package leetcode;
 
 import leetcode.model.TreeNode;
 
+import java.util.List;
+
 /**
  * @Author 会游泳的蚂蚁
  * @Description: 树
@@ -10,12 +12,179 @@ import leetcode.model.TreeNode;
 public class TreeTopic {
 
     /**
-     * @return int
-     * @Author 会游泳的蚂蚁
-     * @Description 二叉树根节点到叶子节点的所有路径和
+     * 144. 二叉树的前序遍历-非递归
+     */
+    public void preOrder(TreeNode root) {
+        // LinkedList是一个双向链表
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        TreeNode pNode = root;
+        // 终止条件节点为null && 栈为空
+        while (pNode != null || !stack.isEmpty()) {
+            // 1 当前节点非空，打印值，元素进栈，访问左孩子
+            // 2 如果左孩子非空，继续执行 1
+            // 3 如果左孩子为空，元素出栈、访问右孩子 继续执行 1
+            if (pNode != null) {
+                System.out.print(pNode.val + "  ");
+                stack.push(pNode);
+                pNode = pNode.left;
+            } else { //pNode == null && !stack.isEmpty()
+                TreeNode node = stack.pop();
+                pNode = node.right;
+            }
+        }
+    }
+
+    /**
+     * 94-中序遍历-非递归
+     */
+    public void inOrder(TreeNode root) {
+        // 利用栈
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        TreeNode pNode = root;
+        // 循环结束条件是节点为空 && 栈中无元素
+        while (pNode != null || !stack.isEmpty()) {
+            // 1 当前节点非空，元素进栈，访问左孩子
+            // 2 如果左孩子非空，继续执行 1
+            // 3 如果左孩子为空，元素出栈、打印值、访问右孩子 继续执行 1
+            if (pNode != null) {
+                // 压入栈，如果左孩子非空，继续执行
+                stack.push(pNode);
+                pNode = pNode.left;
+            } else { // 如果左孩子为空，元素出栈、访问右孩子
+                TreeNode node = stack.pop();
+                System.out.print(node.val + "  ");
+                pNode = node.right;
+            }
+        }
+    }
+
+    // 145. 二叉树的后序遍历 双栈方法(最容易理解）
+    public List<Integer> postorder(TreeNode root) {
+        List<Integer> ret = new ArrayList<>();
+        if (root == null) {
+            return ret;
+        }
+        Stack<TreeNode> stack1 = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
+        // 栈1 存前序 中左右。
+        stack1.push(root);
+        while (!stack1.isEmpty()) {
+            TreeNode t = stack1.pop();
+            stack2.push(t);
+            //栈2存顺序将其转化成中右左。压栈优先压入左子树。
+            if (t.left != null) {
+                stack1.push(t.left);
+            }
+            if (t.right != null) {
+                stack1.push(t.right);
+            }
+        }
+        // 倒序打印结果  左右中。
+        while (!stack2.isEmpty()) {
+            ret.add(stack2.pop().val);
+        }
+        return ret;
+    }
+
+
+    // 102. 二叉树的层序遍历 BFS 迭代实现  时间复杂度：O(n)  空间复杂度：O(n)
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> temp = new LinkedList<>();
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode treeNode = queue.poll();
+                temp.add(treeNode.val);
+                if (treeNode.left != null) {
+                    queue.add(treeNode.left);
+                }
+                if (treeNode.right != null) {
+                    queue.add(treeNode.right);
+                }
+            }
+            result.add(temp);
+        }
+        return result;
+    }
+
+    // 102. 二叉树的层序遍历-DFS递归
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        //用来存放最终结果
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        levelOrderDFS(root, res, 1);
+        return res;
+    }
+
+    private void levelOrderDFS(TreeNode root, List<List<Integer>> res, int index) {
+        // 插入一个空list放到res中
+        if (index > res.size()) {
+            res.add(new ArrayList<>());
+        }
+        // 将当前节点的值加入到res中,index代表当前层
+        res.get(index - 1).add(root.val);
+        // 递归的处理左子树，右子树，同时将层数index+1
+        if (root.left != null) {
+            levelOrderDFS(root.left, res, index + 1);
+        }
+        if (root.right != null) {
+            levelOrderDFS(root.right, res, index + 1);
+        }
+    }
+
+
+    /**
+     * 深度遍历-递归
+     */
+    List<Integer> depResult = new ArrayList<>();
+
+    public List<Integer> depthOrder(TreeNode root) {
+        if (root == null) {
+            return depResult;
+        }
+        depResult.add(root.val);
+        depthOrder(root.left);
+        depthOrder(root.right);
+        return depResult;
+    }
+
+    /**
+     * 深度遍历-非递归
+     */
+    public List<Integer> depthOrder1(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<Integer> result = new ArrayList<>();
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            result.add(node.val);
+            // 注意入栈顺序和前序顺序
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return result;
+    }
+
+
+
+    /**
+     * 二叉树根节点到叶子节点的所有路径和
      * https://www.nowcoder.com/questionTerminal/185a87cd29eb42049132aed873273e83
-     * @Date 2021/1/26 21:20
-     * @Param root
      */
     public int sumNumbers(TreeNode root) {
         int sum = 0;
