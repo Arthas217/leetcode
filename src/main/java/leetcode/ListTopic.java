@@ -2,6 +2,8 @@ package leetcode;
 
 import leetcode.model.ListNode;
 
+import java.util.List;
+
 /**
  * @Author 会游泳的蚂蚁
  * @Description: 链表
@@ -180,6 +182,146 @@ public class ListTopic {
             l2 = (l2 == null) ? headA : l2.next;
         }
         return l1;
+    }
+
+
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode fast = head;
+        while (n-- > 0) {
+            fast = fast.next;
+        }
+        if (fast == null) {
+            return head.next;
+        }
+        ListNode slow = head;
+        while (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     */
+    public ListNode swapPairs(ListNode head) {
+        ListNode node = new ListNode(-1);
+        node.next = head;
+        ListNode pre = node;
+        while (pre.next != null && pre.next.next != null) {
+            ListNode l1 = pre.next;
+            ListNode l2 = pre.next.next;
+            ListNode next = l2.next;
+            l1.next = next;
+            l2.next = l1;
+            pre.next = l2;
+            pre = l1;
+        }
+        return node.next;
+    }
+
+
+    /**
+     * 25. K个一组翻转链表(迭代）
+     * 步骤：
+     * 1 找到head开始的第k的节点
+     * 2 head到tail前一个结点间翻转，并返回新节点
+     * 3 再以tail为头结点递归
+     * 4 递归结束后，将head.next指向翻转的新节点
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode tail = head;
+        for (int i = 0; i < k; i++) {
+            // 剩余数量小于k的话，则不需要反转。
+            if (tail == null) {
+                return head;
+            }
+            tail = tail.next;
+        }
+        ListNode newHead = reverseHt(head, tail);// 翻转前k个元素
+        // 递归反转后续链表并连接起来
+        head.next = reverseKGroup(tail, k);
+        return newHead;
+    }
+
+    /**
+     * 反转区间 [head, tail) ，注意是左闭右开
+     */
+    private ListNode reverseHt(ListNode head, ListNode tail) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur != tail) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+
+
+    /**
+     * 725. 分隔链表
+     * 将链表分隔为 k 个连续的部分。
+     * 每部分的长度应该尽可能的相等: 任意两部分的长度差距不能超过 1
+     * 排在前面的部分的长度应该大于或等于后面的长度。
+     * root = [1, 2, 3], k = 5
+     * 输出: [[1],[2],[3],[],[]]
+     * root = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], k = 3
+     * 输出: [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+     */
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        //计算链表长度
+        ListNode cur = root;
+        int N = 0;
+        while (cur != null) {
+            N++;
+            cur = cur.next;
+        }
+        int mod = N % k;
+        int size = N / k;
+        cur = root;
+        // 存储每部分的起始节点
+        ListNode[] ret = new ListNode[k];
+        for (int i = 0; i < k & cur != null; i++) {
+            ret[i] = cur;
+            // 计算每部分长度
+            int curSize = size + (mod-- > 0 ? 1 : 0);
+            for (int j = 0; j < curSize - 1; j++) {
+                // 移动curSize-1步
+                cur = cur.next;
+            }
+            ListNode next = cur.next;
+            cur.next = null;
+            cur = next;
+        }
+        return ret;
+    }
+
+
+    /**
+     * 328. 奇偶链表（节点编号的奇偶性）
+     */
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode odd = head, even = head.next, evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next;
+            odd = odd.next;
+            even.next = even.next.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
     }
 
 
