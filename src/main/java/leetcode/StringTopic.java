@@ -11,17 +11,16 @@ import java.util.Map;
 public class StringTopic {
 
     /**
-     * @return java.lang.String
-     * @Author 会游泳的蚂蚁
-     * @Description 415. 字符串相加，非负整数字符串str1和str2计算它们的和。
-     * @Date 2021/1/25 20:51
-     * @Param carry 保存进制值
-     * 时间复杂度O(max(str1.len,str2.len)) ,Java解法使用了StringBuffer，它的空间复杂度为 O(n)
+     * 415. 字符串相加 *
+     * 非负整数字符串str1和str2计算它们的和。
+     * 时间复杂度O(max(str1.len,str2.len))
+     * 空间复杂度为 O(n)  Java解法使用了StringBuffer
      */
     public String addStrings(String str1, String str2) {
         StringBuffer sb = new StringBuffer("");
         int i = str1.length() - 1;
         int j = str2.length() - 1;
+        // 保存进制值
         int carry = 0;
         while (i >= 0 || j >= 0) {
             int n1 = str1.charAt(i) - '0';
@@ -32,7 +31,7 @@ public class StringTopic {
             i--;
             j--;
         }
-        //处理最高位
+        // 处理最高位
         if (carry == 1) {
             sb.append(1);
         }
@@ -41,11 +40,8 @@ public class StringTopic {
 
 
     /**
-     * @return boolean
-     * @Author 会游泳的蚂蚁
-     * @Description 9.回文数 判断一个整数是否是回文数
-     * @Date 2021/1/26 15:59
-     * @Param x整数   不能使用额外空间,不能将整数转换为字符串进行判断
+     * 9.回文数 判断一个整数是否是回文数
+     * 不能使用额外空间,不能将整数转换为字符串进行判断
      */
     public boolean isPalindrome(int x) {
         // 将整数分成左右两部分，右边那部分需要转置，然后判断这两部分是否相等。
@@ -64,12 +60,8 @@ public class StringTopic {
     }
 
     /**
-     * @return boolean
-     * @Author 会游泳的蚂蚁
-     * @Description 125. 验证回文串(双指针）
+     * 125. 验证回文串(双指针）
      * 给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
-     * @Date 2021/1/26 16:30
-     * @Param 字符串s
      */
     public boolean isPalindrome2(String s) {
         int left = 0;
@@ -93,11 +85,7 @@ public class StringTopic {
 
 
     /**
-     * @return int
-     * @Author 会游泳的蚂蚁
-     * @Description 无重复字符的最长子串的长度 **
-     * @Date 2021/1/26 17:28
-     * @Param [s]
+     *  无重复字符的最长子串的长度 **
      */
     public int lengthOfLongestSubstring(String s) {
         int length = s.length();
@@ -121,14 +109,10 @@ public class StringTopic {
     }
 
     /**
-     * @return java.lang.String
-     * @Author 会游泳的蚂蚁
-     * @Description 最长回文子串（双指针）**
+     * 最长回文子串（双指针）**
      * 寻找回文串的问题核心思想是：从中间开始向两边扩散来判断回文串
      * https://juejin.cn/post/6844903901884317709
      * 时间复杂度 O(N^2)，空间复杂度 O(1)。
-     * @Date 2021/1/28 14:02
-     * @Param [s]
      */
     public String longestPalindrome(String s) {
         int start = 0, end = 0;
@@ -157,11 +141,7 @@ public class StringTopic {
     }
 
     /**
-     * @return boolean
-     * @Author 会游泳的蚂蚁
-     * @Description 两个字符串匹配(假设两个字符串中所含有的字符和个数都相同)
-     * @Date 2021/2/5 11:12
-     * @Param [str1, str2]
+     * 两个字符串匹配(假设两个字符串中所含有的字符和个数都相同)
      */
     public boolean StrMatch(String str1, String str2) {
         int l1 = str1.length();
@@ -188,19 +168,15 @@ public class StringTopic {
 
 
     /**
-     * @return int
-     * @Author 会游泳的蚂蚁
-     * @Description IP地址（IPV4）与int类型之间的转换
+     * IP地址（IPV4）与int类型之间的转换
      * https://blog.csdn.net/qq_29229567/article/details/88735540
      * 目的：时间换空间的一种方式
-     * @Date 2021/2/5 15:18
-     * @Param [ipv4]
      */
     public int ipv4ToInt(String ipv4) {
         String[] ipSlices = ipv4.split("\\.");
         int result = 0;
         for (int i = 0; i < ipSlices.length; i++) {
-            // 将 ip 的每一段解析为 int，并根据位置左移 8 位
+            // 将ip的每一段解析为int，并根据位置左移8位
             int intSlice = Integer.parseInt(ipSlices[i]) << 8 * i;
             // 求或
             result = result | intSlice;
@@ -210,12 +186,8 @@ public class StringTopic {
 
 
     /**
-     * @return
-     * @Author 会游泳的蚂蚁
-     * @Description 字符串相乘 (不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理)
+     * 字符串相乘 (不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理)
      * https://labuladong.gitbook.io/algo/gao-pin-mian-shi-xi-lie/zi-fu-chuan-cheng-fa
-     * @Date 2021/2/19 09:39
-     * @Param
      */
     public String multiply(String num1, String num2) {
         //涉及乘法进位，涉及错位相加，还涉及加法进位
