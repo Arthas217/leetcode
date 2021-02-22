@@ -14,10 +14,10 @@ public class StringTopicTest {
 
     @Test(enabled = true)
     public void testAddStrings() {
-        String s1 = "1111";
+        String s1 = "111";
         String s2 = "9999";
         String addStrings = stringTopic.addStrings(s1, s2);
-        Assert.assertEquals(addStrings, "11110");
+        Assert.assertEquals(addStrings, "10110");
     }
 
     @Test

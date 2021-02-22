@@ -23,8 +23,8 @@ public class StringTopic {
         // 保存进制值
         int carry = 0;
         while (i >= 0 || j >= 0) {
-            int n1 = str1.charAt(i) - '0';
-            int n2 = str2.charAt(i) - '0';
+            int n1 = i >= 0 ? str1.charAt(i) - '0' : 0;
+            int n2 = j >= 0 ? str2.charAt(j) - '0' : 0;
             int tmp = n1 + n2 + carry;
             carry = tmp / 10;
             sb.append(tmp % 10);
@@ -85,7 +85,7 @@ public class StringTopic {
 
 
     /**
-     *  无重复字符的最长子串的长度 **
+     * 无重复字符的最长子串的长度 **
      */
     public int lengthOfLongestSubstring(String s) {
         int length = s.length();
@@ -152,8 +152,8 @@ public class StringTopic {
         int[] count = new int[256];
         for (int i = 0; i < l1; i++) {
             ++count[str1.charAt(i)];
-            System.out.println(str1.charAt(i));
-            System.out.println(count[str1.charAt(i)]);
+//            System.out.println(str1.charAt(i));
+//            System.out.println(count[str1.charAt(i)]);
         }
         for (int i = 0; i < l2; i++) {
             --count[str2.charAt(i)];
