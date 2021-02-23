@@ -29,4 +29,11 @@ public class TreeTopicTest {
         int sum = treeTopic.sumNumbers(root);
         Assert.assertEquals(sum, 25);
     }
+
+    @Test
+    public void testrob() {
+        TreeNode root = construct.init1();
+        int rob = treeTopic.rob(root);
+        Assert.assertEquals(rob, 5);
+    }
 }

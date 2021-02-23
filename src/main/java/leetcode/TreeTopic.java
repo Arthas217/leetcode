@@ -2,10 +2,7 @@ package leetcode;
 
 import leetcode.model.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @Author 会游泳的蚂蚁
@@ -288,5 +285,34 @@ public class TreeTopic {
             return sum;
         }
         return sumNumbersHelp(root.left, sum) + sumNumbersHelp(root.right, sum);
+    }
+
+
+    /**
+     * 337. 打家劫舍 III  **
+     * 间隔遍历（ 暴力递归+ 哈希表把计算过的值保存起来）
+     * 动态规划DP
+     * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
+     */
+    Map<TreeNode, Integer> robMap = new HashMap<>();
+    public int rob(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (robMap.containsKey(root)) {
+            return robMap.get(root);
+        }
+        //抢劫当前root
+        int robValue = root.val;
+        if (root.left != null) {
+            robValue += rob(root.left.left) + rob(root.left.right);
+        }
+        if (root.right != null) {
+            robValue += rob(root.right.left) + rob(root.right.right);
+        }
+        //不抢劫当前root
+        int noRobValue = rob(root.left) + rob(root.right);
+        robMap.put(root, Math.max(robValue, noRobValue));
+        return robMap.get(root);
     }
 }
