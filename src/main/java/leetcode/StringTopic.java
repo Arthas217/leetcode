@@ -85,7 +85,7 @@ public class StringTopic {
 
 
     /**
-     * 无重复字符的最长子串的长度 **
+     * 3. 无重复字符的最长子串的长度 **
      */
     public int lengthOfLongestSubstring(String s) {
         int length = s.length();
@@ -109,16 +109,26 @@ public class StringTopic {
     }
 
     /**
-     * 最长回文子串（双指针）**
-     * 寻找回文串的问题核心思想是：从中间开始向两边扩散来判断回文串
+     * 409. 最长回文串
+     */
+    public int longestPalindrome1(String s) {
+        return 0;
+    }
+
+    /**
+     * 5. 最长回文子串（双指针）**
+     * 核心思想是：从中间开始向两边扩散来判断回文串,回文串长度可能是奇数也可能是偶数
      * https://juejin.cn/post/6844903901884317709
      * 时间复杂度 O(N^2)，空间复杂度 O(1)。
      */
     public String longestPalindrome(String s) {
         int start = 0, end = 0;
         for (int i = 0; i < s.length(); i++) {
+            // 以一个点为中心向外扩展，直到不是回文为止
             int len1 = expandAroundCenter(s, i, i);
+            // 以两个点为中心向外扩展，直到不是回文为止
             int len2 = expandAroundCenter(s, i, i + 1);
+            //找出两个中的最大回文长度
             int len = Math.max(len1, len2);
             //如果大于保存的最大回文长度，则计算并更新最大回文的位置
             if (len > end - start + 1) {
@@ -130,7 +140,7 @@ public class StringTopic {
         return s.substring(start, end + 1);
     }
 
-    // 回文串的长度可能是奇数也可能是偶数
+    // 所含字母数为偶数的回文的中心处在两数中间,所含字母数为奇数的回文的中心处在某一个字符上
     private int expandAroundCenter(String s, int l, int r) {
         // 防止索引越界
         while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
