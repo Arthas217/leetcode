@@ -290,7 +290,7 @@ public class TreeTopic {
 
     /**
      * 337. 打家劫舍 III  **
-     * 间隔遍历（ 暴力递归+ 哈希表把计算过的值保存起来）
+     * 间隔遍历（递归+ 哈希表）
      * 动态规划DP
      * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
      */
