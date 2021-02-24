@@ -291,10 +291,11 @@ public class TreeTopic {
     /**
      * 337. 打家劫舍 III  **
      * 间隔遍历（递归+ 哈希表）
-     * 动态规划DP
+     * 动态规划DP(todo)
      * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
      */
     Map<TreeNode, Integer> robMap = new HashMap<>();
+
     public int rob(TreeNode root) {
         if (root == null) {
             return 0;
@@ -315,4 +316,30 @@ public class TreeTopic {
         robMap.put(root, Math.max(robValue, noRobValue));
         return robMap.get(root);
     }
+
+
+    /**
+     * 671. 二叉树中第二小的节点（递归）
+     */
+
+    public int findSecondMinimumValue(TreeNode root) {
+        if (root == null || root.left == null || root.right == null) {
+            return -1;
+        }
+        int left = root.left.val;
+        int right = root.right.val;
+        //若根节点和左节点值相同，则递归找左子树的第二小的节点
+        if (root.val == root.left.val) {
+            left = findSecondMinimumValue(root.left);
+        }
+        if (root.val == root.right.val) {
+            right = findSecondMinimumValue(root.right);
+        }
+        if (root.val == left && root.val == right) {
+            return -1;
+        }
+        int lr_min = Math.min(left, right);
+        return root.val < lr_min ? lr_min : Math.max(left, right);
+    }
+
 }
