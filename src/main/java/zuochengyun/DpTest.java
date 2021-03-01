@@ -144,19 +144,96 @@ public class DpTest {
         return dp[0][bag];
     }
 
+
+    /**
+     * "111" -> "AAA" "AK" "KA"
+     *
+     * @return
+     */
+    public int num4Zimu(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+//        return numHelp(str.toCharArray(), 0);
+        return numDp(str);
+    }
+
+    /**
+     * 暴力
+     */
+    private int numHelp(char[] str, int i) {
+        if (i == str.length) {
+            // 0到i-1转化的个数是有效
+            return 1;
+        }
+        if (str[i] == '0') {
+            return 0;
+        }
+        if (str[i] == '1') {
+            // i+1递归
+            int res = numHelp(str, i + 1);
+            if (i + 1 < str.length) {
+                // i+2递归
+                res += numHelp(str, i + 2);
+            }
+            return res;
+        }
+        if (str[i] == '2') {
+            // i+1递归
+            int res = numHelp(str, i + 1);
+            if (i + 1 < str.length && str[i + 1] >= '0' && str[i + 1] <= '6') {
+                // i+2递归
+                res += numHelp(str, i + 2);
+            }
+            return res;
+        }
+        // str[i] == '3'
+        return numHelp(str, i + 1);
+    }
+
+    /**
+     * DP
+     */
+    public int numDp(String str) {
+        char[] chars = str.toCharArray();
+        int N = chars.length;
+        int[] dp = new int[N + 1];
+        dp[N] = 1;
+        for (int i = N - 1; i >= 0; i--) {
+            if (chars[i] == '1') {
+                dp[i] = dp[i + 1];
+                if (i + 1 < N) {
+                    dp[i] += dp[i + 2];
+                }
+            }
+            if (chars[i] == '2') {
+                dp[i] = dp[i + 1];
+                if (i + 1 < N && chars[i + 1] >= '0' && chars[i + 1] <= '6') {
+                    dp[i] += dp[i + 2];
+                }
+            }
+        }
+        return dp[0];
+    }
+
     public static void main(String[] args) {
         DpTest dpTest = new DpTest();
-        int walk1 = dpTest.walk1(6, 3, 4, 5);
-        int walk2 = dpTest.walk2(6, 3, 4, 5);
-        int walk3 = dpTest.walk3(6, 3, 4, 5);
-        System.out.println(walk1);
-        System.out.println(walk2);
-        System.out.println(walk3);
+//        int walk1 = dpTest.walk1(6, 3, 4, 5);
+//        int walk2 = dpTest.walk2(6, 3, 4, 5);
+//        int walk3 = dpTest.walk3(6, 3, 4, 5);
+//        System.out.println(walk1);
+//        System.out.println(walk2);
+//        System.out.println(walk3);
 
 //        int[] weight = {3, 2, 4, 7};
 //        int[] value = {5, 6, 3, 19};
 //        int bag = 11;
 //        int maxValue = dpTest.beibao(weight, value, bag);
 //        System.out.println(maxValue);
+
+        int num = dpTest.num4Zimu("111");
+        System.out.println(num);
+        int num2 = dpTest.numDp("111");
+        System.out.println(num2);
     }
 }
