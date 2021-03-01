@@ -2,13 +2,20 @@ package zuochengyun;
 
 /**
  * @Author 会游泳的蚂蚁
- * @Description: N个数（N>=2)，从M位置出发，经过K步，最终到达P位置
- * 如果M=1,只能往右走一步
- * 如果M =N ,只能往左走一步
- * 如果M为中间，可以往左或者往右走一步
+ * @Description:
  * @Date 2021/2/26 16:19
  */
 public class DpTest {
+
+
+    /**
+     * N个数（N>=2)，从M位置出发，经过K步，最终到达P位置
+     * 如果M=1,只能往右走一步
+     * 如果M =N ,只能往左走一步
+     * 如果M为中间，可以往左或者往右走一步
+     */
+
+
     /**
      * 暴力递归
      */
@@ -32,9 +39,8 @@ public class DpTest {
         return walk(n, cur - 1, rest - 1, p) + walk(n, cur + 1, rest - 1, p);
     }
 
-
     /**
-     * 记忆化搜索（属于DP）
+     * 记忆化搜索
      */
     public int walk2(int N, int M, int K, int P) {
         if (N < 2 || M < 1 || M > N || K < 1 || P < 1 || P > N) {
@@ -69,11 +75,88 @@ public class DpTest {
         return walkDp(N, cur - 1, rest - 1, P, dp) + walkDp(N, cur + 1, rest - 1, P, dp);
     }
 
+    public int walk3(int N, int M, int K, int P) {
+        if (N < 2 || M < 1 || M > N || K < 1 || P < 1 || P > N) {
+            return 0;
+        }
+        int[][] dp = new int[N + 1][K + 1];
+        for (int reset = 0; reset <= K; reset++) {
+            for (int cur = N; cur >= 1; cur--) {
+                if (reset == 0 && cur == P) {
+                    dp[cur][reset] = 1;
+                } else {
+                    dp[cur][reset] = 0;
+                }
+                if (cur == 1 && reset > 0) {
+                    dp[cur][reset] = dp[2][reset - 1];
+                }
+                if (cur == N && reset > 0) {
+                    dp[cur][reset] = dp[N - 1][reset - 1];
+                }
+                if (cur > 1 && cur < N && reset > 0) {
+                    dp[cur][reset] = dp[cur + 1][reset - 1] + dp[cur - 1][reset - 1];
+                }
+            }
+        }
+        return dp[M][K];
+    }
+
+
+    /**
+     * 给定两个长度都是N的数组w,v，给定整数bag载重的袋子，求返回装下的最大价值
+     */
+    public int beibao(int[] w, int[] v, int bag) {
+//        return maxValue(w, v, 0, bag);
+        return dpWay(w, v, bag);
+    }
+
+
+    /**
+     * 暴力 取或者不取
+     */
+    private int maxValue(int[] weight, int[] value, int index, int rest) {
+        if (rest < 0) {
+            return 0;
+        }
+        if (index == weight.length) {
+            return 0;
+        }
+        // index位置未取
+        int v1 = maxValue(weight, value, index + 1, rest);
+        int v2 = Integer.MIN_VALUE;
+        if (rest > weight[index]) {
+            v2 = value[index] + maxValue(weight, value, index + 1, rest - weight[index]);
+        }
+        return Math.max(v1, v2);
+    }
+
+    private int dpWay(int[] w, int[] v, int bag) {
+        int N = w.length;
+        int[][] dp = new int[N + 1][bag + 1];
+        for (int index = N - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= bag; rest++) {
+                dp[index][rest] = dp[index + 1][rest];
+                if (rest >= w[index]) {
+                    dp[index][rest] = Math.max(dp[index][rest], v[index] + dp[index + 1][rest - w[index]]);
+                }
+            }
+        }
+        return dp[0][bag];
+    }
+
     public static void main(String[] args) {
         DpTest dpTest = new DpTest();
         int walk1 = dpTest.walk1(6, 3, 4, 5);
         int walk2 = dpTest.walk2(6, 3, 4, 5);
+        int walk3 = dpTest.walk3(6, 3, 4, 5);
         System.out.println(walk1);
         System.out.println(walk2);
+        System.out.println(walk3);
+
+//        int[] weight = {3, 2, 4, 7};
+//        int[] value = {5, 6, 3, 19};
+//        int bag = 11;
+//        int maxValue = dpTest.beibao(weight, value, bag);
+//        System.out.println(maxValue);
     }
 }
