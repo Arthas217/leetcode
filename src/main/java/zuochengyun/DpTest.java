@@ -265,6 +265,93 @@ public class DpTest {
         return Math.max(f[0][N - 1], s[0][N - 1]);
     }
 
+
+    /**
+     * 面值数组，都是整数，可以使用任意张，求和aim有多少种方法
+     */
+    public int money(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
+        }
+//        return moneyHelp(arr, 0, aim);
+//        return moneyMem(arr, aim);
+        return moneyDp(arr, aim);
+    }
+
+
+    /**
+     * 暴力递归
+     */
+    private int moneyHelp(int[] arr, int index, int rest) {
+        if (rest < 0) {
+            return 0;
+        }
+        if (index == arr.length) {
+            return rest == 0 ? 1 : 0;
+        }
+        int res = 0;
+        for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
+            res += moneyHelp(arr, index + 1, rest - zhang * arr[index]);
+        }
+        return res;
+    }
+
+    /**
+     * 记忆化搜索
+     */
+    public int moneyMem(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
+        }
+        int N = arr.length;
+        int[][] dp = new int[N + 1][aim + 1];
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return dpHelp(arr, 0, aim, dp);
+    }
+
+    private int dpHelp(int[] arr, int index, int rest, int[][] dp) {
+        if (dp[index][rest] != -1) {
+            return dp[index][rest];
+        }
+        if (index == arr.length) {
+            dp[index][rest] = rest == 0 ? 1 : 0;
+            return dp[index][rest];
+        }
+        int res = 0;
+        for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
+            res += dpHelp(arr, index + 1, rest - (zhang * arr[index]), dp);
+        }
+        dp[index][rest] = res;
+        return dp[index][rest];
+    }
+
+    /**
+     * 经典DP
+     */
+    private int moneyDp(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
+        }
+        int N = arr.length;
+        int[][] dp = new int[N + 1][aim + 1];
+
+        dp[N][0] = 1;
+
+        for (int index = N - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= aim; rest++) {
+                // 表格中的每一项有for循环枚举行为
+                for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
+                    dp[index][rest] += dp[index + 1][rest - (zhang * arr[index])];
+                }
+            }
+        }
+        return dp[0][aim];
+    }
+
     public static void main(String[] args) {
         DpTest dpTest = new DpTest();
 //        int walk1 = dpTest.walk1(6, 3, 4, 5);
@@ -285,9 +372,14 @@ public class DpTest {
 //        int num2 = dpTest.numDp("111");
 //        System.out.println(num2);
 
-        int[] arr = {4, 7, 9, 5};
-        int winner = dpTest.winner(arr);
-        System.out.println(winner);
+//        int[] arr = {4, 7, 9, 5};
+//        int winner = dpTest.winner(arr);
+//        System.out.println(winner);
+
+
+        int[] arr = {5, 10, 50, 100};
+        int money = dpTest.money(arr, 1000);
+        System.out.println(money);
     }
 
 }
