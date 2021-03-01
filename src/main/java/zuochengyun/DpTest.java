@@ -343,9 +343,16 @@ public class DpTest {
 
         for (int index = N - 1; index >= 0; index--) {
             for (int rest = 0; rest <= aim; rest++) {
+
                 // 表格中的每一项有for循环枚举行为
-                for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
-                    dp[index][rest] += dp[index + 1][rest - (zhang * arr[index])];
+//                for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
+//                    dp[index][rest] += dp[index + 1][rest - (zhang * arr[index])];
+//                }
+
+                // 同列下行值 + 同行左侧值
+                dp[index][rest] = dp[index + 1][rest];
+                if (rest - arr[index] >= 0) {
+                    dp[index][rest] += dp[index][rest - arr[index]];
                 }
             }
         }
