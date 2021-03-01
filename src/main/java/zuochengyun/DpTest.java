@@ -216,6 +216,55 @@ public class DpTest {
         return dp[0];
     }
 
+
+    /**
+     * 整形数组，数值不同，A和B 轮流拿最左或者最右值，返回获胜分数
+     */
+    public int winner(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        return dpWinner(arr);
+//        return Math.max(f(arr, 0, arr.length - 1), s(arr, 0, arr.length - 1));
+    }
+
+    private int f(int[] arr, int L, int R) {
+        if (L == R) {
+            return arr[L];
+        }
+        return Math.max(arr[L] + s(arr, L + 1, R), arr[R] + s(arr, L, R - 1));
+    }
+
+    private int s(int[] arr, int L, int R) {
+        if (L == R) {
+            return 0;
+        }
+        return Math.min(f(arr, L + 1, R), f(arr, L, R - 1));
+    }
+
+    private int dpWinner(int[] arr) {
+        int N = arr.length;
+        int[][] f = new int[N][N];
+        int[][] s = new int[N][N];
+        // f的对角线
+        for (int i = 0; i < N; i++) {
+            f[i][i] = arr[i];
+        }
+        // s对角线 都是0；
+        for (int i = 1; i < N; i++) {
+            int row = 0;
+            int col = i;
+            while (row < N && col < N) {
+                f[row][col] = Math.max(arr[row] + s[row + 1][col], arr[col] + s[row][col - 1]);
+                s[row][col] = Math.min(f[row + 1][col], f[row][col - 1]);
+                row++;
+                col++;
+            }
+
+        }
+        return Math.max(f[0][N - 1], s[0][N - 1]);
+    }
+
     public static void main(String[] args) {
         DpTest dpTest = new DpTest();
 //        int walk1 = dpTest.walk1(6, 3, 4, 5);
@@ -231,9 +280,14 @@ public class DpTest {
 //        int maxValue = dpTest.beibao(weight, value, bag);
 //        System.out.println(maxValue);
 
-        int num = dpTest.num4Zimu("111");
-        System.out.println(num);
-        int num2 = dpTest.numDp("111");
-        System.out.println(num2);
+//        int num = dpTest.num4Zimu("111");
+//        System.out.println(num);
+//        int num2 = dpTest.numDp("111");
+//        System.out.println(num2);
+
+        int[] arr = {4, 7, 9, 5};
+        int winner = dpTest.winner(arr);
+        System.out.println(winner);
     }
+
 }
