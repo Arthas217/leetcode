@@ -90,11 +90,53 @@ public class Demo1 {
     }
 
 
+    /**
+     * 长度N的字符串str，长度M的字符串aim，（N>M)，
+     * 求返回满足条件的str中连续子串的起始位置
+     */
+    public int containAim(String str, String aim) {
+        if (str == null || aim == null || str.length() < aim.length()) {
+            return -1;
+        }
+        char[] c1 = str.toCharArray();
+        char[] c2 = aim.toCharArray();
+        //枚举str子串，长度为aim=M的所有可能的起始位置  [0...N-M]
+        for (int start = 0; start <= c1.length - c2.length; start++) {
+            if (isCountTypeEqual(c1, start, c2)) {
+                return start;
+            }
+        }
+        return -1;
+    }
+
+    // 同源异构[种类、数目一样，顺序无关]字符串
+    private boolean isCountTypeEqual(char[] c1, int start, char[] c2) {
+        // 字符的ASCII码
+        int[] count = new int[256];
+        for (int i = 0; i < c2.length; i++) {
+            count[c2[i]]++;
+        }
+        for (int i = 0; i < c2.length; i++) {
+            if (count[c1[start + i]]-- == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public static void main(String[] args) {
-        int[] arr = {2, 4, 3, 6, 8, 7, 5};
         Demo1 demo1 = new Demo1();
-        TreeTopic treeTopic = new TreeTopic();
-        TreeNode treeNode = demo1.ArrayToBST(arr);
-        System.out.println(treeTopic.levelOrder(treeNode));
+
+//        int[] arr = {2, 4, 3, 6, 8, 7, 5};
+//        TreeTopic treeTopic = new TreeTopic();
+//        TreeNode treeNode = demo1.ArrayToBST(arr);
+//        System.out.println(treeTopic.levelOrder(treeNode));
+
+
+        String aim = "abac";
+        String str = "akcabbaabca";
+        int index = demo1.containAim(str, aim);
+        System.out.println(index);
     }
 }
