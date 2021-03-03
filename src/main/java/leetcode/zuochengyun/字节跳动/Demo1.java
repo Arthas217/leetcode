@@ -124,6 +124,47 @@ public class Demo1 {
         return true;
     }
 
+    public int containAimPerfect(String str, String aim) {
+        if (str == null || aim == null || str.length() < aim.length()) {
+            return -1;
+        }
+        char[] c2 = aim.toCharArray();
+        int[] count = new int[256];
+        // 欠债表
+        for (int i = 0; i < c2.length; i++) {
+            count[c2[i]]++;
+        }
+        char[] c1 = str.toCharArray();
+        int M = c2.length;
+        // 无效点数
+        int inValidTimes = 0;
+        // 窗口右边界位置
+        int R = 0;
+        // 先让窗口拥有M个字符
+        for (; R < M; R++) {
+            // 注意小于等于0
+            if (count[c1[R]]-- <= 0) {
+                inValidTimes++;
+            }
+        }
+        // 此时R==M,形成了[0,M-1]窗口
+        for (; R < c1.length; R++) {
+            // 每次遍历，先判断前一个窗口是否达标
+            if (inValidTimes == 0) {
+                return R - M;
+            }
+            //[1,M] 让M位置数进窗口，让0出窗口
+            if (count[c1[R]]-- <= 0) {
+                inValidTimes++;
+            }
+            if (count[c1[R - M]]++ < 0) {
+                inValidTimes--;
+            }
+        }
+        // 最后一个窗口需要验证是否达标
+        return inValidTimes == 0 ? R - M : -1;
+    }
+
 
     public static void main(String[] args) {
         Demo1 demo1 = new Demo1();
@@ -137,6 +178,8 @@ public class Demo1 {
         String aim = "abac";
         String str = "akcabbaabca";
         int index = demo1.containAim(str, aim);
+        int index1 = demo1.containAimPerfect(str, aim);
         System.out.println(index);
+        System.out.println(index1);
     }
 }
