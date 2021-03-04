@@ -287,6 +287,9 @@ public class TreeTopic {
         return sumNumbersHelp(root.left, sum) + sumNumbersHelp(root.right, sum);
     }
 
+    /**
+     * 198. 打家劫舍（非负整数数组金额，相邻的房屋报警，偷窃到的最高金额）
+     */
     public int rob1(int[] nums) {
         int len = nums.length;
         if (nums == null || len == 0) {
@@ -296,6 +299,9 @@ public class TreeTopic {
         return robDp1(nums);
     }
 
+    /**
+     * 记忆化搜索+递归（LeetCode时间超出限制）
+     */
     private int rob1Help(int[] nums, int index) {
         Map<Integer, Integer> cache = new HashMap<>();
         if (cache.containsKey(index)) {
@@ -321,7 +327,7 @@ public class TreeTopic {
         if (len == 1) {
             return nums[len - 1];
         }
-        // 递推dp[i] 从0到i位置获得的最大金额
+        // 递推函数dp[i]含义： 从0到i位置获得的最大金额
         int[] dp = new int[len];
         dp[0] = nums[0];
         dp[1] = Math.max(nums[0], nums[1]);
@@ -331,16 +337,32 @@ public class TreeTopic {
         return dp[len - 1];
     }
 
+    /**
+     * 213. 打家劫舍 II (存放金额的非负整数数组, 围成一圈,相邻的房屋报警，偷窃到的最高金额)
+     */
+    public int rob2(int[] nums){
+        return 0;
+    }
+
 
     /**
-     * 337. 打家劫舍 III  **
-     * 间隔遍历（递归+ 哈希表）
-     * 动态规划DP(todo)
-     * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
+     * 337. 打家劫舍 III  (一棵二叉树,只有一个入口根节点，相邻的房屋报警，偷窃到的最高金额)  间隔遍历
      */
-    Map<TreeNode, Integer> robMap = new HashMap<>();
 
     public int rob3(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return rob3Help(root);
+    }
+
+    Map<TreeNode, Integer> robMap = new HashMap<>();
+
+    /**
+     * //（递归+ 哈希表）
+     * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
+     */
+    private int rob3Help(TreeNode root){
         if (root == null) {
             return 0;
         }
