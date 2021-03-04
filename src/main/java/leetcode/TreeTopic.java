@@ -339,9 +339,36 @@ public class TreeTopic {
 
     /**
      * 213. 打家劫舍 II (存放金额的非负整数数组, 围成一圈,相邻的房屋报警，偷窃到的最高金额)
+     * https://mp.weixin.qq.com/s/kKPx4HpH3RArbRcxAVHbeQ
      */
-    public int rob2(int[] nums){
-        return 0;
+    public int rob2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        // 包含首元素，不包含尾元素
+        int result1 = robRange(nums, 0, nums.length - 1 - 1);
+        // 包含尾元素，不包含首元素
+        int result2 = robRange(nums, 1, nums.length - 1);
+        return Math.max(result1, result2);
+    }
+
+    /**
+     * 类似方法robDp1逻辑
+     */
+    private int robRange(int[] nums, int start, int end) {
+        if (end == start) {
+            return nums[start];
+        }
+        int[] dp = new int[nums.length];
+        dp[start] = nums[start];
+        dp[start + 1] = Math.max(nums[start], nums[start + 1]);
+        for (int i = start + 2; i <= end; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[end];
     }
 
 
@@ -362,7 +389,7 @@ public class TreeTopic {
      * //（递归+ 哈希表）
      * https://leetcode-cn.com/problems/house-robber-iii/solution/shu-xing-dp-ru-men-wen-ti-by-liweiwei1419/
      */
-    private int rob3Help(TreeNode root){
+    private int rob3Help(TreeNode root) {
         if (root == null) {
             return 0;
         }

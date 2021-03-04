@@ -41,7 +41,8 @@ public class TreeTopicTest {
         System.out.println(treeTopic.rob1(arr2));
         System.out.println(treeTopic.rob1(arr3));
 
-        System.out.println(treeTopic.rob2(arr1));
+        int[] arr4 = {2, 3, 2};
+        System.out.println(treeTopic.rob2(arr4));
 
         TreeNode root = construct.init2();
         System.out.println(treeTopic.rob3(root));
