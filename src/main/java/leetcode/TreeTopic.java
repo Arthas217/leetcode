@@ -287,6 +287,50 @@ public class TreeTopic {
         return sumNumbersHelp(root.left, sum) + sumNumbersHelp(root.right, sum);
     }
 
+    public int rob1(int[] nums) {
+        int len = nums.length;
+        if (nums == null || len == 0) {
+            return 0;
+        }
+//        return rob1Help(nums, len - 1);
+        return robDp1(nums);
+    }
+
+    private int rob1Help(int[] nums, int index) {
+        Map<Integer, Integer> cache = new HashMap<>();
+        if (cache.containsKey(index)) {
+            return cache.get(index);
+        }
+        int res = 0;
+        if (index == 0) {
+            res = nums[0];
+        } else if (index == 1) {
+            res = Math.max(nums[0], nums[1]);
+        } else {
+            res = Math.max(rob1Help(nums, index - 1), rob1Help(nums, index - 2) + nums[index]);
+        }
+        cache.put(index, res);
+        return res;
+    }
+
+    public int robDp1(int[] nums) {
+        int len = nums.length;
+        if (nums == null || len == 0) {
+            return 0;
+        }
+        if (len == 1) {
+            return nums[len - 1];
+        }
+        // 递推dp[i] 从0到i位置获得的最大金额
+        int[] dp = new int[len];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < len; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[len - 1];
+    }
+
 
     /**
      * 337. 打家劫舍 III  **
@@ -296,7 +340,7 @@ public class TreeTopic {
      */
     Map<TreeNode, Integer> robMap = new HashMap<>();
 
-    public int rob(TreeNode root) {
+    public int rob3(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -306,13 +350,13 @@ public class TreeTopic {
         //抢劫当前root
         int robValue = root.val;
         if (root.left != null) {
-            robValue += rob(root.left.left) + rob(root.left.right);
+            robValue += rob3(root.left.left) + rob3(root.left.right);
         }
         if (root.right != null) {
-            robValue += rob(root.right.left) + rob(root.right.right);
+            robValue += rob3(root.right.left) + rob3(root.right.right);
         }
         //不抢劫当前root
-        int noRobValue = rob(root.left) + rob(root.right);
+        int noRobValue = rob3(root.left) + rob3(root.right);
         robMap.put(root, Math.max(robValue, noRobValue));
         return robMap.get(root);
     }
@@ -320,7 +364,7 @@ public class TreeTopic {
     /**
      * https://leetcode-cn.com/problems/house-robber-iii/solution/337-da-jia-jie-she-iiidong-tai-gui-hua-x-8t1e/
      */
-    public int robDp(TreeNode root) {
+    public int robDp3(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -346,9 +390,9 @@ public class TreeTopic {
         int[] left = processRob(root.left);
         int[] right = processRob(root.right);
         int[] dp = new int[2];
-        // 没打劫根节点，则左右子树的根节点可打劫可不打劫：
+        // 如果不偷当前节点，那么左右孩子就可以偷，至于到底偷不偷一定是选一个最大的
         dp[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
-        // 打劫了根节点，则左右子树的根节点不能打劫：
+        // 如果偷当前节点，则那么左右孩子就不能偷
         dp[1] = root.val + left[0] + right[0];
         return dp;
     }
