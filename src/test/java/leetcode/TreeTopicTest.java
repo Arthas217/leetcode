@@ -32,8 +32,9 @@ public class TreeTopicTest {
 
     @Test
     public void testrob() {
-        TreeNode root = construct.init1();
+        TreeNode root = construct.init2();
         int rob = treeTopic.rob(root);
-        Assert.assertEquals(rob, 5);
+        int robDp = treeTopic.robDp(root);
+        System.out.println(robDp);
     }
 }

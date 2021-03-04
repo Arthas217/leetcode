@@ -317,6 +317,42 @@ public class TreeTopic {
         return robMap.get(root);
     }
 
+    /**
+     * https://leetcode-cn.com/problems/house-robber-iii/solution/337-da-jia-jie-she-iiidong-tai-gui-hua-x-8t1e/
+     */
+    public int robDp(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        // 有两个变量共同决定一个状态：1、代表不同子树的 root 节点、2、是否打劫了 root。
+        // dp[node][j] ：node表示一个结点，以node为根结点的树，并且规定node是否偷取能够获得的最大价值。
+        // j = 0 表示 node 结点不偷取；j = 1 表示 node 结点偷取。
+        // 在根结点的时候，返回两个状态的较大者。
+        // 但对象不能作为数组索引, 用res一维数组存放两个状态。root为根结点的子树能够偷取的最大价值
+        int[] res = processRob(root);
+        return Math.max(res[0], res[1]);
+    }
+
+    /**
+     * 所谓树形DP就是在树上进行递归公式的推导。
+     */
+    private int[] processRob(TreeNode root) {
+        // 终止条件
+        if (root == null) {
+            return new int[2];
+        }
+        // 后序遍历是因为通过递归函数的返回值来做下一步计算。
+        // root左右子树状态（包括不取、取）
+        int[] left = processRob(root.left);
+        int[] right = processRob(root.right);
+        int[] dp = new int[2];
+        // 没打劫根节点，则左右子树的根节点可打劫可不打劫：
+        dp[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        // 打劫了根节点，则左右子树的根节点不能打劫：
+        dp[1] = root.val + left[0] + right[0];
+        return dp;
+    }
+
 
     /**
      * 671. 二叉树中第二小的节点（递归）
