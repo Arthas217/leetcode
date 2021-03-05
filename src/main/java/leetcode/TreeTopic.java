@@ -571,4 +571,35 @@ public class TreeTopic {
         traver(root.left);
     }
 
+
+    /**
+     * 235. 二叉搜索树的最近公共祖先
+     */
+    public TreeNode bstLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 1. p和q都在root的左子树
+        if (p.val < root.val && q.val < root.val) {
+            return bstLowestCommonAncestor(root.left, p, q);
+        }
+        // 2. p和q都在root右子树
+        if (p.val > root.val && q.val > root.val) {
+            return bstLowestCommonAncestor(root.right, p, q);
+        }
+        // 3. 其他情况（p和q分别在左右子树中，p和q值可能和根节点相等）
+        return root;
+    }
+
+
+    /**
+     * 236. 二叉树的最近公共祖先(找到该树中两个指定节点的最近公共祖先)
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 递归函数 想到是深度优先遍历-> 后序遍历（递归返回值再之后处理公共祖先）
+        if (root == null || root.val == p.val || root.val == q.val) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        return left == null ? right : right == null ? left : root;
+    }
+
 }
