@@ -1,5 +1,6 @@
 package leetcode;
 
+import leetcode.model.ListNode;
 import leetcode.model.TreeNode;
 
 import java.util.*;
@@ -590,7 +591,7 @@ public class TreeTopic {
 
 
     /**
-     * 236. 二叉树的最近公共祖先(找到该树中两个指定节点的最近公共祖先)
+     * 236. 二叉树的最近公共祖先
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         // 递归函数 想到是深度优先遍历-> 后序遍历（递归返回值再之后处理公共祖先）
@@ -601,5 +602,62 @@ public class TreeTopic {
         TreeNode right = lowestCommonAncestor(root.right, p, q);
         return left == null ? right : right == null ? left : root;
     }
+
+
+    /**
+     * 108. 将有序数组转换为二叉搜索树(每个节点的左右两个子树的高度差的绝对值不超过1)
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        // 思路:  有序 --> 二叉搜索且高度不差1   -->  平衡二叉树  --> 取数组中点即为根节点  --> 边界情况: 包括左边界，不包括右边界
+        // >>为有符号右移，右移以后最高位保持原来的最高位。
+        // >>>这个右移的话最高位补 0。
+        return helpArrayToBST(nums, 0, nums.length);
+    }
+
+    private TreeNode helpArrayToBST(int[] nums, int left, int right) {
+        if (left == right) {
+            return null;
+        }
+        int mid = (left + right) >> 1;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = helpArrayToBST(nums, left, mid);
+        root.right = helpArrayToBST(nums, mid + 1, right);
+        return root;
+    }
+
+
+    /**
+     * 109. 有序链表转换二叉搜索树  (给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树)
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        // 只有一个节点
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+        // 快慢指针及pre指针
+        ListNode preMid = preMid(head);
+        ListNode mid = preMid.next;
+        preMid.next = null;// 断开连接
+        // BST的根节点
+        TreeNode root = new TreeNode(mid.val);
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(mid.next);
+        return root;
+    }
+
+    private ListNode preMid(ListNode head) {
+        ListNode slow = head, fast = head.next;
+        ListNode pre = head;
+        while (fast != null && fast.next != null) {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return pre;
+    }
+
 
 }
