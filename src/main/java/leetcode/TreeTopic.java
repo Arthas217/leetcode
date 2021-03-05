@@ -448,7 +448,8 @@ public class TreeTopic {
 
 
     /**
-     * 671. 二叉树中第二小的节点（递归）
+     * 671. 二叉树中第二小的节点（递归）如果有子节点时，父节点的值等于两个子节点中较小的一个。
+     *
      */
 
     public int findSecondMinimumValue(TreeNode root) {
@@ -461,9 +462,11 @@ public class TreeTopic {
         if (root.val == root.left.val) {
             left = findSecondMinimumValue(root.left);
         }
+        //若根节点和右节点值相同，则递归找右子树的第二小的节点
         if (root.val == root.right.val) {
             right = findSecondMinimumValue(root.right);
         }
+        //root，left,right值一样， 第二小的值不存在的话，输出 -1
         if (root.val == left && root.val == right) {
             return -1;
         }
