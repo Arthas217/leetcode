@@ -524,4 +524,51 @@ public class TreeTopic {
         return -1;
     }
 
+
+    int cnt = 0;
+    int ksmallValue = 0;
+
+    public int kthSmallest2(TreeNode root, int k) {
+        inOrder(root, k);
+        return ksmallValue;
+    }
+
+    private void inOrder(TreeNode root, int k) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left, k);
+        cnt++;
+        if (cnt == k) {
+            ksmallValue = root.val;
+            return;
+        }
+        inOrder(root.right, k);
+    }
+
+
+    /**
+     * 538. 把二叉搜索树转换为累加树
+     * 遍历顺序：右中左
+     * 左 = 中 + val
+     * 中 = 右 + val
+     * 右 = val
+     */
+    public TreeNode convertBST(TreeNode root) {
+        traver(root);
+        return root;
+    }
+
+    int sum = 0;
+
+    private void traver(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        traver(root.right);
+        sum += root.val;
+        root.val = sum;
+        traver(root.left);
+    }
+
 }
