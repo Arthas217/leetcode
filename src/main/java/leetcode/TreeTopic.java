@@ -449,9 +449,7 @@ public class TreeTopic {
 
     /**
      * 671. 二叉树中第二小的节点（递归）如果有子节点时，父节点的值等于两个子节点中较小的一个。
-     *
      */
-
     public int findSecondMinimumValue(TreeNode root) {
         if (root == null || root.left == null || root.right == null) {
             return -1;
@@ -472,6 +470,58 @@ public class TreeTopic {
         }
         int lr_min = Math.min(left, right);
         return root.val < lr_min ? lr_min : Math.max(left, right);
+    }
+
+
+    /**
+     * 513. 找树左下角的值 (在树的最后一行找到最左边的值) **
+     */
+    public int findBottomLeftValue(TreeNode root) {
+        if (root == null) {
+            return -1;
+        }
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            // 注意是root，不是临时节点
+            root = queue.poll();
+            // 必须是先右后左
+            if (root.right != null) {
+                queue.add(root.right);
+            }
+            if (root.left != null) {
+                queue.add(root.left);
+            }
+        }
+        return root.val;
+    }
+
+
+    /**
+     * 230. 二叉搜索树BST中第K小的元素
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        if (k < 1 || root == null) {
+            return -1;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode temp = root;
+        List<Integer> arrayList = new ArrayList<>();
+        while (temp != null || !stack.isEmpty()) {
+            if (temp != null) {
+                stack.push(temp);
+                temp = temp.left;
+            } else {
+                TreeNode treeNode = stack.pop();
+                arrayList.add(treeNode.val);
+                // 注意temp
+                temp = treeNode.right;
+            }
+            if (arrayList.size() == k) {
+                return arrayList.get(k - 1);
+            }
+        }
+        return -1;
     }
 
 }
