@@ -693,7 +693,11 @@ public class TreeTopic {
 
 
     /**
-     * 530. 二叉搜索树的(节点为非负值)绝对差（任意两节点的差的绝对值）最小值
+     * 530. 二叉搜索树的绝对差最小值
+     * 节点为非负值
+     * 任意两节点的差的绝对值
+     * 左子树中所含结点的值小于等于当前结点的值
+     * 右子树中所含结点的值大于等于当前结点的值
      */
     public int getMinimumDifference(TreeNode root) {
         if (root == null || root.left == null && root.right == null) {
@@ -717,6 +721,64 @@ public class TreeTopic {
         }
         preNore = root;
         midOrder(root.right);
+    }
+
+
+    /**
+     * 501. 二叉搜索树中的众数（有相同值, 出现频率最高的元素）
+     */
+    public int[] findMode(TreeNode root) {
+        // maxCnt记录出现的众数
+        List<Integer> maxCnt = new ArrayList<>();
+        mOrder(root, maxCnt);
+        int[] res = new int[maxCnt.size()];
+        int idx = 0;
+        for (int num : maxCnt) {
+            res[idx++] = num;
+        }
+        return res;
+    }
+
+    /**
+     * update函数（变量）来代替哈希表所带来空间占用
+     */
+    private void mOrder(TreeNode root, List<Integer> array) {
+        if (root == null) {
+            return;
+        }
+        mOrder(root.left, array);
+        updateCount(root.val, array);
+        mOrder(root.right, array);
+    }
+
+    int base;
+    int sameCount;
+    int maxCount;
+
+    /**
+     * 每次扫描到一个新的元素
+     * base 记录当前的数字
+     * sameCount 记录当前数字重复的次数
+     * maxCount 来维护已经扫描过的数当中出现最多的那个数字的出现次数
+     */
+    private void updateCount(int x, List<Integer> array) {
+        // 更新base和sameCount
+        if (x == base) {
+            ++sameCount;
+        } else {
+            sameCount = 1;
+            base = x;
+        }
+        // 更新maxCount, 把base添加到array中
+        if (sameCount == maxCount) {
+            array.add(base);
+        }
+        if (sameCount > maxCount) {
+            maxCount = sameCount;
+            // 为什么？
+            array.clear();
+            array.add(base);
+        }
     }
 
 

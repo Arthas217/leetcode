@@ -48,4 +48,14 @@ public class TreeTopicTest {
         System.out.println(treeTopic.rob3(root));
         System.out.println(treeTopic.robDp3(root));
     }
+
+
+    @Test
+    public void testfindMode() {
+        TreeNode node = construct.init();
+        int[] mode = treeTopic.findMode(node);
+        for (int value : mode) {
+            System.out.println(value);
+        }
+    }
 }
