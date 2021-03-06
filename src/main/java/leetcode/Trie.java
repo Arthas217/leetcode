@@ -66,4 +66,35 @@ public class Trie {
     }
 
 
+    /**
+     * 判断某字符串是匹配前缀树
+     */
+    public boolean startsWith(String prefix) {
+        return startsWith(root, prefix);
+    }
+
+    private boolean startsWith(TrieNode root, String prefix) {
+        if (root == null) {
+            return false;
+        }
+        if (prefix.length() == 0) {
+            return true;
+        }
+        int index = indexForChar(prefix.charAt(0));
+        return startsWith(root.childs[index], prefix.substring(1));
+    }
+
+
+    public static void main(String[] args) {
+        String[] words = {"how", "hi", "her", "hello", "so", "see"};
+        Trie trie = new Trie();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        boolean exist = trie.search("hello");
+        System.out.println(exist);
+
+        boolean pipei = trie.startsWith("her");
+        System.out.println(pipei);
+    }
 }
