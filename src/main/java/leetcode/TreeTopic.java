@@ -660,4 +660,36 @@ public class TreeTopic {
     }
 
 
+    /**
+     * 653. 两数之和IV  给定一个二叉搜索树和一个目标结果，如果BST中存在两个元素且它们的和等于给定的目标结果，则返回true。
+     * 中序遍历得到有序数组之后，再利用双指针对数组进行查找。
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        List<Integer> array = new ArrayList<>();
+        midOrder(root, array);
+        int l = 0, r = array.size() - 1;
+        while (l < r) {
+            int sum = array.get(l) + array.get(r);
+            if (sum == k) {
+                return true;
+            }
+            if (sum < k) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return false;
+    }
+
+    private void midOrder(TreeNode root, List<Integer> array) {
+        if (root == null) {
+            return;
+        }
+        midOrder(root.left, array);
+        array.add(root.val);
+        midOrder(root.right, array);
+    }
+
+
 }
