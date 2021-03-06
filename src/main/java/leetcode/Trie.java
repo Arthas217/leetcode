@@ -2,7 +2,7 @@ package leetcode;
 
 /**
  * @Author 会游泳的蚂蚁
- * @Description: 字典树、前缀树
+ * @Description: 208. 实现 Trie (前缀树、字典树）
  * @Date 2021/3/6 16:33
  */
 public class Trie {
@@ -10,8 +10,13 @@ public class Trie {
     public Trie() {
     }
 
+    /**
+     * 定义字典树节点
+     */
     private class TrieNode {
+        // 26个字母
         TrieNode[] childs = new TrieNode[26];
+        // 类似是叶子节点，是某条路径，代表某个字符串
         boolean isLeaf;
     }
 
