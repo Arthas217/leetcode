@@ -692,4 +692,32 @@ public class TreeTopic {
     }
 
 
+    /**
+     * 530. 二叉搜索树的(节点为非负值)绝对差（任意两节点的差的绝对值）最小值
+     */
+    public int getMinimumDifference(TreeNode root) {
+        if (root == null || root.left == null && root.right == null) {
+            return -1;
+        }
+        //中序遍历中临近的两个节点之差的绝对值，取最小值。
+        midOrder(root);
+        return minDiff;
+    }
+
+    int minDiff = Integer.MAX_VALUE;
+    TreeNode preNore = null;
+
+    private void midOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        midOrder(root.left);
+        if (preNore != null) {
+            minDiff = Math.min(minDiff, root.val - preNore.val);
+        }
+        preNore = root;
+        midOrder(root.right);
+    }
+
+
 }
