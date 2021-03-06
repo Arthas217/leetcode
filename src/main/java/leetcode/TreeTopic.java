@@ -775,7 +775,6 @@ public class TreeTopic {
         }
         if (sameCount > maxCount) {
             maxCount = sameCount;
-            // 为什么？
             array.clear();
             array.add(base);
         }
