@@ -80,7 +80,7 @@ public class ArrayTopic {
 
 
     /**
-     * 27. 移除元素 (数组nums和一个值val,原地修改数组所有数值等于val的元素，并返回移除后数组的新长度)
+     * 27. 移除元素 (数组nums和一个值val,删除所有数值等于val的元素，并返回移除后数组的新长度)
      * 数组的元素在内存地址中是连续的，不能单独删除数组中的某个元素，只能覆盖
      */
     public int removeElement(int[] nums, int val) {
@@ -106,6 +106,7 @@ public class ArrayTopic {
         int slow = 0;
         for (int fast = 0; fast < nums.length; fast++) {
             if (nums[fast] != val) {
+                // slow向右移动
                 nums[slow++] = nums[fast];
             }
         }
