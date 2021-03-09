@@ -159,6 +159,54 @@ public class ArrayTopic {
     }
 
     /**
+     * 59. 螺旋矩阵 II
+     * 正整数n，生成一个包含1到n2所有元素，且元素按顺时针顺序螺旋排列的 nxn 正方形矩阵 matrix
+     */
+    public int[][] generateMatrix(int n) {
+        if (n <= 0) {
+            return null;
+        }
+        int lx = 0;
+        int ly = 0;
+        int rx = n - 1;
+        int ry = n - 1;
+        int[][] res = new int[n][n];
+        while (lx <= rx && ly <= ry) {
+            printCircleValue(lx++, ly++, rx--, ry--, res);
+        }
+        return res;
+    }
+
+    int num = 1;
+
+    private void printCircleValue(int lx, int ly, int rx, int ry, int[][] res) {
+        if (lx == rx) {
+            for (int index = ly; index <= ry; index++) {
+                res[lx][index++] = num++;
+            }
+        } else if (ly == ry) {
+            for (int index = lx; index <= rx; index++) {
+                res[index++][ry] = num++;
+            }
+        } else {
+            int tempx = lx;
+            int tempy = ly;
+            while (tempy != ry) {  // 打印一圈矩阵的上行
+                res[lx][tempy++] = num++;
+            }
+            while (tempx != rx) { // 打印一圈矩阵的右列
+                res[tempx++][ry] = num++;
+            }
+            while (tempy != lx) { // 打印一圈矩阵的下行
+                res[rx][tempy--] = num++;
+            }
+            while (tempx != lx) { // 打印一圈矩阵的左列
+                res[tempx--][ly] = num++;
+            }
+        }
+    }
+
+    /**
      * 215. 数组中的第K个最大元素
      * 1) 快排一趟排序构建分界点p，p位置为倒数第k个下标时即可
      * 2) 建大顶堆，删除k-1次(todo)
