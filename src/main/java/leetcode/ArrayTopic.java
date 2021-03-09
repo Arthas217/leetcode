@@ -115,6 +115,50 @@ public class ArrayTopic {
 
 
     /**
+     * 209. 长度最小的子数组
+     * n 个正整数的数组和一个正整数 target
+     * 满足其和 ≥ target 的长度最小的 连续子数组
+     * 不存在符合条件的子数组，返回 0
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        // 暴力法
+        int sum = 0;
+        int subLen = 0;
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            sum = 0;
+            for (int j = i; j < nums.length; j++) {
+                sum += nums[j];
+                if (sum >= target) {
+                    subLen = j - i + 1;
+                    res = res > subLen ? subLen : res;
+                    break;
+                }
+            }
+        }
+        return res == Integer.MAX_VALUE ? 0 : res;
+    }
+
+    public int minSubArrayLen2(int target, int[] nums) {
+        int res = Integer.MAX_VALUE;
+        int sum = 0;
+        // 滑动窗口的长度
+        int subLength = 0;
+        int s = 0;
+        for (int e = 0; e < nums.length; e++) {
+            sum += nums[e];
+            //窗口的起始位置s需要移动一位
+            while (sum >= target) {
+                subLength = e - s + 1;
+                res = res > subLength ? subLength : res;
+                // 窗口左侧缩小一位
+                sum -= nums[s++];
+            }
+        }
+        return res == Integer.MAX_VALUE ? 0 : res;
+    }
+
+    /**
      * 215. 数组中的第K个最大元素
      * 1) 快排一趟排序构建分界点p，p位置为倒数第k个下标时即可
      * 2) 建大顶堆，删除k-1次(todo)

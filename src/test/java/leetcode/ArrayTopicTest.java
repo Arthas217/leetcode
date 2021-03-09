@@ -26,4 +26,11 @@ public class ArrayTopicTest {
         int kthLargest = arrayTopic.findKthLargest(arr, 2);
         Assert.assertEquals(kthLargest, 5);
     }
+
+    @Test
+    public void testminSubArrayLen2() {
+        int[] arr = {2, 3, 1, 2, 4, 3};
+        int min = arrayTopic.minSubArrayLen2(7, arr);
+        System.out.println(min);
+    }
 }
