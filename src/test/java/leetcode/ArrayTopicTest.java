@@ -36,7 +36,7 @@ public class ArrayTopicTest {
 
     @Test
     public void testMatrix(){
-        int[][] res = arrayTopic.generateMatrix(3);
+        int[][] res = arrayTopic.generateMatrix(4);
         for (int i = 0; i < res.length; i++) {
             for (int j = 0; j < res[0].length; j++) {
                 System.out.print(res[i][j] +"\t");

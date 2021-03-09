@@ -197,7 +197,7 @@ public class ArrayTopic {
             while (tempx != rx) { // 打印一圈矩阵的右列
                 res[tempx++][ry] = num++;
             }
-            while (tempy != lx) { // 打印一圈矩阵的下行
+            while (tempy != ly) { // 打印一圈矩阵的下行
                 res[rx][tempy--] = num++;
             }
             while (tempx != lx) { // 打印一圈矩阵的左列
