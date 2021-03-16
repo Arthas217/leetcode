@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /**
  * @Author 会游泳的蚂蚁
  * @Description:
@@ -209,17 +212,55 @@ public class ArrayTopic {
     /**
      * 215. 数组中的第K个最大元素
      * 1) 快排一趟排序构建分界点p，p位置为倒数第k个下标时即可
-     * 2) 建大顶堆，删除k-1次(todo)
+     * 2) 建堆
      * 输入: [3,2,1,5,6,4] 和 k = 2
      * 输出: 5
      */
     public int findKthLargest(int[] nums, int k) {
-        return quickSort(nums, 0, nums.length - 1, nums.length - k);
+//        return quickSort(nums, 0, nums.length - 1, nums.length - k);
+//        return minHeapHelp(nums, k);
+        return maxHeapHelp(nums, k);
+    }
+
+    /**
+     * 建立小顶堆
+     */
+    private int minHeapHelp(int[] nums, int k) {
+        // 若小于或等于k，则继续添加；
+        // 若大于k，此时需要将堆顶元素出队(保证每次在添加一个元素后，当前优先队列中始终保持的是已经遍历过的数组中前k大的元素)。
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int i = 0; i < nums.length; i++) {
+            minHeap.offer(nums[i]);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+        return minHeap.peek();
+    }
+
+    /**
+     * 建立大顶堆，删除k-1次
+     */
+    private int maxHeapHelp(int[] nums, int k) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        for (int i = 0; i < nums.length; i++) {
+            maxHeap.offer(nums[i]);
+        }
+        for (int i = 1; i < k; i++) {
+            maxHeap.poll();
+        }
+        return maxHeap.peek();
     }
 
     SortTopic sortTopic = new SortTopic();
 
     private int quickSort(int[] arr, int l, int r, int index) {
+        // 这里省略快速排序的代码，引用之前的部分
         int p = sortTopic.partition(arr, l, r);
         if (p == index) {
             return arr[p];
