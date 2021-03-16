@@ -313,7 +313,6 @@ public class ArrayTopic {
             largest = r;
         }
 
-        // 左右结点的值都大于等与根节点时，直接return不做任何操作
         if (index == largest) {
             return;
         }
