@@ -219,8 +219,22 @@ public class ArrayTopic {
     public int findKthLargest(int[] nums, int k) {
 //        return quickSort(nums, 0, nums.length - 1, nums.length - k);
 //        return minHeapHelp(nums, k);
-        return maxHeapHelp(nums, k);
+//        return maxHeapHelp(nums, k);
+        return heapHelp(nums, k);
     }
+
+    SortTopic sortTopic = new SortTopic();
+
+    private int quickSort(int[] arr, int l, int r, int index) {
+        // 这里省略快速排序的代码，引用之前的部分
+        int p = sortTopic.partition(arr, l, r);
+        if (p == index) {
+            return arr[p];
+        } else {
+            return p < index ? quickSort(arr, p + 1, r, index) : quickSort(arr, 1, p - 1, index);
+        }
+    }
+
 
     /**
      * 建立小顶堆
@@ -261,16 +275,59 @@ public class ArrayTopic {
         return maxHeap.peek();
     }
 
-    SortTopic sortTopic = new SortTopic();
-
-    private int quickSort(int[] arr, int l, int r, int index) {
-        // 这里省略快速排序的代码，引用之前的部分
-        int p = sortTopic.partition(arr, l, r);
-        if (p == index) {
-            return arr[p];
-        } else {
-            return p < index ? quickSort(arr, p + 1, r, index) : quickSort(arr, 1, p - 1, index);
+    private int heapHelp(int[] nums, int k) {
+        int heapSize = nums.length;
+        // 建立堆
+        buildMaxHeap(nums, heapSize);
+        // 删除k-1次，每次要调整堆
+        for (int i = nums.length - 1; i >= nums.length - k + 1; --i) {
+            // 根元素和最后一个元素互换
+            swap(nums, 0, i);
+            --heapSize;
+            heapify(nums, 0, heapSize);
         }
+        return nums[0];
+    }
+
+    private void buildMaxHeap(int[] arr, int heapSize) {
+        for (int i = heapSize / 2; i >= 0; --i) {
+            heapify(arr, i, heapSize);
+        }
+    }
+
+    private void heapify(int[] arr, int index, int heapSize) {
+        // 获取左右结点的数组下标
+        int l = index * 2 + 1;
+        int r = index * 2 + 2;
+
+        //  表示根结点、左结点、右结点中最大的值的结点的下标
+        int largest = index;
+
+        // 存在左结点，且左结点的值大于根结点的值
+        if (l < heapSize && arr[l] > arr[index]) {
+            largest = l;
+        }
+
+        // 存在右结点，且右结点的值大于以上比较的较大值
+        if (r < heapSize && arr[r] > arr[largest]) {
+            largest = r;
+        }
+
+        // 左右结点的值都大于等与根节点时，直接return不做任何操作
+        if (index == largest) {
+            return;
+        }
+        // 交换根节点和左右结点中最小的那个值，把根节点的值替换下去
+        swap(arr, index, largest);
+        // 由于替换后左右子树会被影响，所以要对受影响的子树再进行heapify
+        heapify(arr, largest, heapSize);
+    }
+
+    // 交换元素位置
+    private void swap(int[] data, int i, int j) {
+        int tmp = data[i];
+        data[i] = data[j];
+        data[j] = tmp;
     }
 
 }
