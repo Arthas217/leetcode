@@ -230,8 +230,10 @@ public class ArrayTopic {
         // 若大于k，此时需要将堆顶元素出队(保证每次在添加一个元素后，当前优先队列中始终保持的是已经遍历过的数组中前k大的元素)。
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         for (int i = 0; i < nums.length; i++) {
+            // 建堆过程
             minHeap.offer(nums[i]);
             if (minHeap.size() > k) {
+                // 删除调整过程
                 minHeap.poll();
             }
         }
@@ -249,9 +251,11 @@ public class ArrayTopic {
             }
         });
         for (int i = 0; i < nums.length; i++) {
+            // 建堆过程
             maxHeap.offer(nums[i]);
         }
         for (int i = 1; i < k; i++) {
+            //删除调整过程
             maxHeap.poll();
         }
         return maxHeap.peek();
