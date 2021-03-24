@@ -275,6 +275,9 @@ public class ArrayTopic {
         return maxHeap.peek();
     }
 
+    /**
+     * 数据结构版本实现大顶堆
+     */
     private int heapHelp(int[] nums, int k) {
         int heapSize = nums.length;
         // 建立堆
