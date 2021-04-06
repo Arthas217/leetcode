@@ -319,7 +319,7 @@ public class ArrayTopic {
         if (index == largest) {
             return;
         }
-        // 交换根节点和左右结点中最小的那个值，把根节点的值替换下去
+        // 交换此时根节点和左右结点中最大的那个值，把根节点的值替换下去
         swap(arr, index, largest);
         // 由于替换后左右子树会被影响，所以要对受影响的子树再进行heapify
         heapify(arr, largest, heapSize);
