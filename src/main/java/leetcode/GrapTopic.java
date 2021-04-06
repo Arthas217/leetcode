@@ -63,4 +63,38 @@ public class GrapTopic {
         return x >= 0 && x < rows && y >= 0 && y < cols;
     }
 
+
+    /**
+     * 695. 岛屿的最大面积
+     */
+    public int maxAreaOfIsland(int[][] grid) {
+        int res = 0;
+        rows = grid.length;
+        cols = grid[0].length;
+        visited = new boolean[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                int len = 0;
+                res = Math.max(res, dfs(grid, i, j, len));
+            }
+        }
+        return res;
+    }
+
+    private int dfs(int[][] grid, int i, int j, int len) {
+        if (grid[i][j] == 1 && !visited[i][j]) {
+            len++;
+            visited[i][j] = true;
+            for (int k = 0; k < 4; k++) {
+                // 上左下右
+                int newX = i + DIRECTIONS[k][0];
+                int newY = j + DIRECTIONS[k][1];
+                if (inArea(newX, newY) && grid[newX][newY] == 1 && !visited[newX][newY]) {
+                    // 保存最大值，因为dfs回溯的时候值会恢复的（len恢复为刚开始进来时的值
+                    len = Math.max(len, dfs(grid, newX, newY, len));
+                }
+            }
+        }
+        return len;
+    }
 }
