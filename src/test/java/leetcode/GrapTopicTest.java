@@ -31,10 +31,11 @@ public class GrapTopicTest {
 
     @Test
     public void test(){
-//        int[][] arr = {{1,1,0,0,0},{1,1,0,0,0},{0,0,0,1,1},{0,0,0,1,1}};
+        int[][] arr = {{1,1,0,0,0},{1,1,0,0,0},{0,0,0,1,1},{0,0,0,1,1}};
 //        int[][] arr = {{1}};
-        int[][] arr = {{0,1},{1,0}};
+//        int[][] arr = {{0,1},{1,0}};
         int maxAreaOfIsland = grapTopic.maxAreaOfIsland(arr);
+        int maxAreaOfIsland2 = grapTopic.maxAreaOfIsland2(arr);
         System.out.println(maxAreaOfIsland);
     }
 
