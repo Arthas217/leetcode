@@ -2,6 +2,8 @@ package leetcode;
 
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
 import static org.testng.Assert.*;
 
 /**
@@ -19,5 +21,20 @@ public class SortTopicTest {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + "\t");
         }
+    }
+
+    @Test
+    public void testMergeSort() {
+        int arr[] = {51, 46, 20, 18, 65, 97, 82, 30, 77, 50};
+        sortTopic.mergeSort(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+
+    @Test
+    public void testShellSort() {
+        int[] array = {5, 3, 9, 12, 6, 1, 7, 2, 4, 11, 8, 10};
+        sortTopic.shellSort(array);
+        System.out.println(Arrays.toString(array));
     }
 }
