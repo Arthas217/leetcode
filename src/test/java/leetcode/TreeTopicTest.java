@@ -1,9 +1,12 @@
 package leetcode;
 
+import easy.TreeEasy;
 import leetcode.model.TreeNode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -16,11 +19,13 @@ public class TreeTopicTest {
 
     TreeTopic treeTopic;
     TreeConstruct construct;
+    TreeEasy treeEasy;
 
     @BeforeMethod
     public void setUp() {
         treeTopic = new TreeTopic();
         construct = new TreeConstruct();
+        treeEasy = new TreeEasy();
     }
 
     @Test
@@ -57,5 +62,12 @@ public class TreeTopicTest {
         for (int value : mode) {
             System.out.println(value);
         }
+    }
+
+    @Test
+    public void testLeftLevel() {
+        TreeNode treeNode = construct.init0();
+        List<Integer> list = treeEasy.leftLevel(treeNode);
+        System.out.println(list);
     }
 }

@@ -1,8 +1,10 @@
 package easy;
 
 import leetcode.model.TreeNode;
+import sun.security.util.Length;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -250,5 +252,31 @@ public class TreeEasy {
         return Math.max(lpath, rpath);
     }
 
-
+    /**
+     * 二叉树左投影层次遍历
+     */
+    public List<Integer> leftLevel(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<Integer> result = new ArrayList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                if (i == 0) {
+                    result.add(node.val);
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+        }
+        return result;
+    }
 }
