@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.testng.Assert.*;
 
 /**
@@ -35,12 +37,19 @@ public class ArrayTopicTest {
     }
 
     @Test
-    public void testMatrix(){
+    public void testMatrix() {
         int[][] res = arrayTopic.generateMatrix(4);
         for (int i = 0; i < res.length; i++) {
             for (int j = 0; j < res[0].length; j++) {
-                System.out.print(res[i][j] +"\t");
+                System.out.print(res[i][j] + "\t");
             }
         }
+    }
+
+    @Test
+    public void testFindSubsequences() {
+        int[] nums = {4, 7, 6, 7};
+        List<List<Integer>> list = arrayTopic.findSubsequences(nums);
+        System.out.println(list);
     }
 }

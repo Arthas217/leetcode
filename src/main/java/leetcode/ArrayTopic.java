@@ -1,7 +1,6 @@
 package leetcode;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * @Author 会游泳的蚂蚁
@@ -331,6 +330,70 @@ public class ArrayTopic {
         data[i] = data[j];
         data[j] = tmp;
     }
+
+
+    // 491. 递增子序列(基本回溯问题---回溯就是用深度优先遍历的方式去搜索树（图）的所有解。深度优先遍历有很明显的递归结构)
+    // https://leetcode-cn.com/problems/increasing-subsequences/solution/491-di-zeng-zi-xu-lie-shen-sou-hui-su-xiang-jie-by/
+    // https://leetcode-cn.com/problems/increasing-subsequences/solution/java-hui-su-si-lu-qing-xi-yi-dong-by-ven-gwek/
+    List<List<Integer>> res;
+
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        res = new ArrayList<>();
+        backTracking(nums, new ArrayList<>(), 0);
+        return res;
+    }
+
+    private void backTracking(int[] nums, List<Integer> path, int start) {
+        if (start == nums.length) {
+            return;
+        }
+        HashSet<Integer> visited = new HashSet<>();
+        // 4,7,6,7
+        for (int i = start; i < nums.length; i++) {
+            if (visited.contains(nums[i])) {
+                continue;
+            }
+            // 记录在本层用过了
+            visited.add(nums[i]);
+            if (path.size() == 0 || path.get(path.size() - 1) <= nums[i]) {
+                path.add(nums[i]);
+                if (path.size() >= 2) {
+                    res.add(new ArrayList<>(path));
+                }
+                backTracking(nums, path, i + 1);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 300. 最长递增子序列(动态规划）
+     * 时间复杂度：O(N^2)， 空间复杂度：O(N)
+     * https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-er-fen-cha-zhao-tan-xin-suan-fa-p/
+     * 时间复杂度：0(N*logN)  没看懂https://www.jianshu.com/p/824faa1025be
+     * 得到最长递增子序列
+     * https://blog.csdn.net/qq_33323162/article/details/52441635
+     */
+    public int lengthOfLIS(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int lengthest = 0;
+        int[] dp = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            if (dp[i] > lengthest) {
+                lengthest = dp[i];
+            }
+        }
+        return lengthest;
+    }
+
 
 }
 
