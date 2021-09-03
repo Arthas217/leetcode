@@ -324,5 +324,51 @@ public class ListTopic {
         return head;
     }
 
+    /**
+     * 143. 重排链表
+     * @param head
+     */
+    public void reorderList(ListNode head) {
+        if (head == null) {
+            return;
+        }
+        // 找到原链表的中点
+        ListNode mid = middleNode(head);
+        ListNode l1 = head;
+        ListNode l2 = mid.next;
+        mid.next = null;
+        // 右半端反转
+        l2 = reverseList(l2);
+        // 将原链表的两端合并,两链表长度相差不超过1，因此直接合并即可
+        mergeList(l1, l2);
+    }
+
+    /**
+     * 求链表中点
+     */
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    public void mergeList(ListNode l1, ListNode l2) {
+        ListNode ln1;
+        ListNode ln2;
+        while (l1 != null && l2 != null) {
+            ln1 = l1.next;
+            ln2 = l2.next;
+            ln1.next = l2;
+            l1 = ln1;
+            ln2.next = l1;
+            l2 = ln2;
+        }
+    }
+
+
 
 }
