@@ -52,4 +52,12 @@ public class ArrayTopicTest {
         List<List<Integer>> list = arrayTopic.findSubsequences(nums);
         System.out.println(list);
     }
+
+    @Test
+    public void testgetNumberOfK(){
+        int[] arr = {1, 2, 3, 3, 3, 3, 4, 5};
+//        int[] arr = {1, 1, 1, 1, 1, 1, 1, 1};
+        int numberOfK = arrayTopic.getNumberOfK(arr, 3);
+        System.out.println(numberOfK);
+    }
 }

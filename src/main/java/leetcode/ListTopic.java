@@ -67,10 +67,11 @@ public class ListTopic {
      * 递归反转链表前 N 个节点, N<=链表⻓度
      * 递归函数：反转以node为起点的N个节点，返回新的头结点
      */
-    ListNode back = null;
+    ListNode back = null; // 后驱节点
 
     ListNode reverseN(ListNode node, int n) {
         if (n == 1) {
+            // 记录第n+1节点
             back = node.next;
             return node;
         }

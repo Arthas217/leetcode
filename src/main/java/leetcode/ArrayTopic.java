@@ -395,5 +395,70 @@ public class ArrayTopic {
     }
 
 
+    /**
+     * 统计一个数字在排序数组中出现的次数
+     * 例如输入排序数组{1, 2, 3, 3, 3, 3, 4, 5}和 k=3在这个数组中出现了4次
+     * 基于二分查找法直接找到第一个k和最后一个k，在分别找到第一个k和最后一个k的对应下标以后，就能计算出k在排序数组中出现的次数。
+     * 参考https://www.cxyzjd.com/article/qq_27952053/90448041
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int getNumberOfK(int[] arr, int k) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        int count = 0;
+        // 不存在返回-1
+        int firstIndex = getFirstK(arr, k, 0, arr.length - 1);
+        int lastIndex = getLastK(arr, k, 0, arr.length - 1);
+        if (firstIndex > -1 && lastIndex > -1) {
+            count = lastIndex - firstIndex + 1;
+        }
+        return count;
+    }
+
+    private int getFirstK(int[] arr, int num, int start, int end) {
+        if (start > end) {
+            return -1;
+        }
+        int index = (start + end) / 2;
+        int data = arr[index];
+        if (data == num) {
+            if ((index > 0 && arr[index - 1] != num) || index == 0) {
+                return index;
+            } else {
+                end = index - 1;
+            }
+        } else if (index > num) {
+            end = index - 1;
+        } else {
+            start = index + 1;
+        }
+        return getFirstK(arr, num, start, end);
+    }
+
+    private int getLastK(int[] arr, int num, int start, int end) {
+        if (start > end) {
+            return -1;
+        }
+        int index = (start + end) / 2;
+        int data = arr[index];
+        if (data == num) {
+            if (start == end) {
+                return index;
+            } else if ((index > 0 && arr[index + 1] != num) || index == 0) {
+                return index;
+            } else {
+                start = index + 1;
+            }
+        } else if (index > num) {
+            end = index - 1;
+        } else {
+            start = index + 1;
+        }
+        return getLastK(arr, num, start, end);
+    }
+
 }
 
